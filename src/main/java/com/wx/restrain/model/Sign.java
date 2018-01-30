@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 
 /**
- * Created by user on 2018/1/23.
+ * Created by user on 2018/1/30.
  */
 @Entity
 public class Sign {

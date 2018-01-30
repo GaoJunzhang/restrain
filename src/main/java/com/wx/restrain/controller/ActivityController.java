@@ -3,11 +3,14 @@ package com.wx.restrain.controller;
 import com.wx.restrain.bean.ActivityBean;
 import com.wx.restrain.model.Activity;
 import com.wx.restrain.service.ActivityService;
+import com.wx.restrain.util.BeanPage;
 import com.wx.restrain.util.StringTools;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 2018/1/23.
@@ -36,5 +39,22 @@ public class ActivityController {
             return activityBean;
         }
         return null;
+    }
+
+    @GetMapping("/activitys")
+    public BeanPage<ActivityBean> activityBeanPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+                                               @RequestParam(defaultValue = "desc") String sortType, @RequestParam(defaultValue = "createTime") String sortValue){
+        Page<Activity> activities = activityService.activities(page,size,sortType,sortValue);
+        BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
+        beanPage.setTotal(activities.getTotalElements());
+        beanPage.setTotalPage(activities.getTotalPages());
+        List<ActivityBean> activityBeans = new ArrayList<ActivityBean>();
+        for (Activity activity : activities) {
+            ActivityBean ActivityBean = new ActivityBean();
+            ActivityBean.inject(activity);
+            activityBeans.add(ActivityBean);
+        }
+        beanPage.setRows(activityBeans);
+        return beanPage;
     }
 }

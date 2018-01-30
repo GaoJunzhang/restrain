@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created by user on 2018/1/23.
+ * Created by user on 2018/1/30.
  */
 @Entity
 public class Activity {
@@ -21,12 +21,14 @@ public class Activity {
     private Date startDate;
     private Date endDate;
     private Short isSign;
-    private Short style;
     private String limits;
     private String img;
     private String video;
     private Integer likeCount;
     private String music;
+    private Short isLimit;
+    private String bgImg;
+    private String bgColor;
 
     @Id
     @Column(name = "id")
@@ -119,16 +121,6 @@ public class Activity {
     }
 
     @Basic
-    @Column(name = "style")
-    public Short getStyle() {
-        return style;
-    }
-
-    public void setStyle(Short style) {
-        this.style = style;
-    }
-
-    @Basic
     @Column(name = "limits")
     public String getLimits() {
         return limits;
@@ -178,6 +170,36 @@ public class Activity {
         this.music = music;
     }
 
+    @Basic
+    @Column(name = "is_limit")
+    public Short getIsLimit() {
+        return isLimit;
+    }
+
+    public void setIsLimit(Short isLimit) {
+        this.isLimit = isLimit;
+    }
+
+    @Basic
+    @Column(name = "bg_img")
+    public String getBgImg() {
+        return bgImg;
+    }
+
+    public void setBgImg(String bgImg) {
+        this.bgImg = bgImg;
+    }
+
+    @Basic
+    @Column(name = "bg_color")
+    public String getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(String bgColor) {
+        this.bgColor = bgColor;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -195,12 +217,14 @@ public class Activity {
         if (startDate != null ? !startDate.equals(activity.startDate) : activity.startDate != null) return false;
         if (endDate != null ? !endDate.equals(activity.endDate) : activity.endDate != null) return false;
         if (isSign != null ? !isSign.equals(activity.isSign) : activity.isSign != null) return false;
-        if (style != null ? !style.equals(activity.style) : activity.style != null) return false;
         if (limits != null ? !limits.equals(activity.limits) : activity.limits != null) return false;
         if (img != null ? !img.equals(activity.img) : activity.img != null) return false;
         if (video != null ? !video.equals(activity.video) : activity.video != null) return false;
         if (likeCount != null ? !likeCount.equals(activity.likeCount) : activity.likeCount != null) return false;
         if (music != null ? !music.equals(activity.music) : activity.music != null) return false;
+        if (isLimit != null ? !isLimit.equals(activity.isLimit) : activity.isLimit != null) return false;
+        if (bgImg != null ? !bgImg.equals(activity.bgImg) : activity.bgImg != null) return false;
+        if (bgColor != null ? !bgColor.equals(activity.bgColor) : activity.bgColor != null) return false;
 
         return true;
     }
@@ -216,12 +240,14 @@ public class Activity {
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (isSign != null ? isSign.hashCode() : 0);
-        result = 31 * result + (style != null ? style.hashCode() : 0);
         result = 31 * result + (limits != null ? limits.hashCode() : 0);
         result = 31 * result + (img != null ? img.hashCode() : 0);
         result = 31 * result + (video != null ? video.hashCode() : 0);
         result = 31 * result + (likeCount != null ? likeCount.hashCode() : 0);
         result = 31 * result + (music != null ? music.hashCode() : 0);
+        result = 31 * result + (isLimit != null ? isLimit.hashCode() : 0);
+        result = 31 * result + (bgImg != null ? bgImg.hashCode() : 0);
+        result = 31 * result + (bgColor != null ? bgColor.hashCode() : 0);
         return result;
     }
 }

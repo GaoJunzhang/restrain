@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created by user on 2018/1/23.
+ * Created by user on 2018/1/30.
  */
 @Entity
 @Table(name = "wx_users", schema = "restrain", catalog = "")
