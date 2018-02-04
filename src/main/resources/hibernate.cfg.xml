@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://112.74.201.45:3306/restrain</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+      <mapping class="com.restrain.model.Appkeys"/>
+    <mapping class="com.restrain.model.Appkey"/>
+      <mapping class="com.restrain.model.WxUsers"/>
+      <mapping class="com.restrain.model.Comment"/>
+      <mapping class="com.restrain.model.Comments"/>
+      <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>
