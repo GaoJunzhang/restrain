@@ -1,13 +1,14 @@
 package com.restrain.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
-public class Comments {
+@Table(name = "comments")
+public class Comments implements Serializable{
     private long id;
     private Long ownerUserId;
     private Long targetUserId;
@@ -18,7 +19,8 @@ public class Comments {
     private Long activityId;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     public long getId() {
         return id;
     }

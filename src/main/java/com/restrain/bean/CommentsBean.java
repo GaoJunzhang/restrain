@@ -5,9 +5,9 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 
-@RelevanceClass("Comment")
+@RelevanceClass("Comments")
 @Data
-public class CommentBean extends MainBean{
+public class CommentsBean extends MainBean{
 
     private long id;
     private Long ownerUserId;
@@ -17,4 +17,6 @@ public class CommentBean extends MainBean{
     private Long parentId;
     private Short parentType;
     private Long activityId;
+    private String ownerUserName;
+    private String targetUserName;
 }

@@ -6,17 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class WxUserService {
     @Autowired
     private WxUserRepository wxUserRepository;
 
-    public WxUsers saveWxusers(Long id,String wxName,String nickName, Short sex,String img,String tel, Short status){
+    public WxUsers saveWxusers(Long id, String wxName, String nickName, Short sex, String img, String tel, Short status, String openId) {
         WxUsers wxUsers = null;
-        if (id==null){
+        if (id == null) {
             wxUsers = new WxUsers();
-        }else {
+        } else {
             wxUsers = wxUserRepository.findOne(id);
         }
         wxUsers.setLoginTime(new Timestamp(System.currentTimeMillis()));
@@ -26,6 +27,19 @@ public class WxUserService {
         wxUsers.setImg(img);
         wxUsers.setTel(tel);
         wxUsers.setStatus(status);
+        wxUsers.setOpenid(openId);
         return wxUserRepository.save(wxUsers);
+    }
+
+    public WxUsers wxUsersById(Long id) {
+        return wxUserRepository.findOne(id);
+    }
+
+    public List<WxUsers> wxUsersListByIdIn(Long[] ids) {
+        return wxUserRepository.findByIdIn(ids);
+    }
+
+    public List<WxUsers> findByOpenid(String openId) {
+        return wxUserRepository.findByOpenid(openId);
     }
 }

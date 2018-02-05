@@ -1,6 +1,7 @@
 package com.restrain.service;
 
 import com.alibaba.fastjson.JSON;
+import com.restrain.dao.WxUserRepository;
 import com.restrain.util.HttpRequest;
 import com.restrain.util.RedisUtil;
 import org.apache.commons.lang.RandomStringUtils;
@@ -26,6 +27,9 @@ public class WxService {
 
 	@Autowired
 	private RedisUtil redisUtil;
+
+	@Autowired
+	private WxUserRepository wxUserRepository;
 	/**
 	 * 根据小程序登录返回的code获取openid和session_key
 	 * https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html?t=20161107
@@ -59,4 +63,6 @@ public class WxService {
 		redisUtil.add(thirdSessionKey, expires, sb.toString());
 		return thirdSessionKey;
 	}
+
+
 }

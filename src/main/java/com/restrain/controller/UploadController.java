@@ -32,7 +32,7 @@ public class UploadController extends BaseController{
 	 * @return
 	 */
 	@Api(name = ApiConstant.UPLOAD_IMAGE)
-	@RequestMapping(value = "/api/v1/upload/image", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "uploadImage", method = RequestMethod.POST, produces = "application/json")
 	public Map<String,Object> uploadImage(@RequestParam(required=true,value="file")MultipartFile file){
 		if(null == file){
 			return rtnParam(40010, null);
@@ -48,4 +48,6 @@ public class UploadController extends BaseController{
 		}
 		return rtnParam(40011, null);
 	}
+
+
 }

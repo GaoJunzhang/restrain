@@ -1,11 +1,10 @@
 package com.restrain.controller;
 
-import java.util.Map;
-
+import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 @Component
 public abstract class BaseController {
@@ -26,4 +25,8 @@ public abstract class BaseController {
             return ImmutableMap.of("errorCode", errorCode, "msg", errorCodeMap.get(String.valueOf(errorCode)));
         }
     }
+   /* public String getMessage(HttpServletRequest request, String message) {
+        RequestContext requestContext = new RequestContext(request);
+        return requestContext.getMessage(message);
+    }*/
 }

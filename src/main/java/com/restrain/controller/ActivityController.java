@@ -1,27 +1,18 @@
 package com.restrain.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.restrain.bean.ActivityBean;
+import com.restrain.model.Activity;
 import com.restrain.service.ActivityService;
 import com.restrain.util.BeanPage;
 import com.restrain.util.StringTools;
-import com.restrain.model.Activity;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,9 +27,9 @@ public class ActivityController {
     private ActivityService activityService;
 
     @PostMapping(path = "/saveActivity")
-    @ApiOperation(value = "保存密圈",notes = "发布密圈活动，返回json密圈对象")
-    public ActivityBean saveActivity(Long id, String name, String createrWxId, String content, Short isTime, String startDate, String endDate, Short isSign, Short style, String limits, String img, String video, String music) {
-        Activity activity = activityService.saveActivity(id, name, createrWxId, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, style, limits, img, video, music);
+    @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
+    public ActivityBean saveActivity(Long id, String name, String wxno, String content, Short isTime, String startDate, String endDate, Short isSign, Short style, String limits, String img, String video, String music) {
+        Activity activity = activityService.saveActivity(id, name, wxno, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, style, limits, img, video, music);
         ActivityBean activityBean = new ActivityBean();
         if (activity != null) {
             activityBean.inject(activity);

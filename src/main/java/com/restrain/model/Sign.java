@@ -1,18 +1,17 @@
 package com.restrain.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * Created by user on 2018/1/30.
  */
 @Entity
-public class Sign {
+@Table(name = "sign")
+public class Sign implements Serializable{
     private long id;
-    private Integer activityId;
+    private Long activityId;
     private Timestamp createTime;
     private String img;
     private String video;
@@ -20,6 +19,7 @@ public class Sign {
     private String content;
     private String position;
     private String isHide;
+    private Long userId;
 
     @Id
     @Column(name = "id")
@@ -33,11 +33,11 @@ public class Sign {
 
     @Basic
     @Column(name = "activity_id")
-    public Integer getActivityId() {
+    public Long getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(Integer activityId) {
+    public void setActivityId(Long activityId) {
         this.activityId = activityId;
     }
 
@@ -143,5 +143,15 @@ public class Sign {
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (isHide != null ? isHide.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

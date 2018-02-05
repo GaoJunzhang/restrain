@@ -38,10 +38,10 @@ public class WxAuthController extends BaseController{
 	 * @param wxCode	小程序登录时获取的code
 	 * @return
 	 */
-	@ApiOperation(value = "获取sessionId", notes = "小用户允许登录后，使用code 换取 session_key api，将 code 换成 openid 和 session_key")
+	@ApiOperation(value = "获取sessionId", notes = "用户允许登录后，使用code 换取 session_key api，将 code 换成 openid 和 session_key")
 	@ApiImplicitParam(name = "code", value = "用户登录回调内容会带上 ", required = true, dataType = "String")
 	@Api(name = ApiConstant.WX_CODE)
-	@RequestMapping(value = "/api/v1/wx/getSession", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "getSession", method = RequestMethod.GET, produces = "application/json")
 	public Map<String,Object> createSssion(@RequestParam(required = true,value = "code")String wxCode){
 		Map<String,Object> wxSessionMap = wxService.getWxSession(wxCode);
 
@@ -68,7 +68,7 @@ public class WxAuthController extends BaseController{
 	 * @return
 	 */
 	@Api(name = ApiConstant.WX_CHECK_USER)
-	@RequestMapping(value = "/api/v1/wx/checkUserInfo", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "checkUserInfo", method = RequestMethod.GET, produces = "application/json")
 	public Map<String,Object> checkUserInfo(@RequestParam(required = true,value = "rawData")String rawData,
 			@RequestParam(required = true,value = "signature")String signature,
 			@RequestParam(required = true,defaultValue = "sessionId")String sessionId){
@@ -95,7 +95,7 @@ public class WxAuthController extends BaseController{
 	 * @return
 	 */
 	@Api(name = ApiConstant.WX_DECODE_USERINFO)
-	@RequestMapping(value = "/api/v1/wx/decodeUserInfo", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.GET, produces = "application/json")
 	public Map<String,Object> decodeUserInfo(@RequestParam(required = true,value = "encryptedData")String encryptedData,
 			@RequestParam(required = true,defaultValue = "iv")String iv,
 			@RequestParam(required = true,defaultValue = "sessionId")String sessionId){

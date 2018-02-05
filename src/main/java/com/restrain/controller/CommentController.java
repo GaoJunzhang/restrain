@@ -1,10 +1,13 @@
 package com.restrain.controller;
 
-import com.restrain.bean.CommentBean;
+import com.restrain.bean.CommentsBean;
 import com.restrain.model.Comments;
+import com.restrain.model.WxUsers;
 import com.restrain.service.CommentService;
+import com.restrain.service.WxUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,14 +19,17 @@ public class CommentController extends BaseController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private WxUserService wxUserService;
+
     @ApiOperation(value = "添加评论", notes = "添加评论")
     @RequestMapping(value = "saveComment", method = RequestMethod.POST, produces = "application/json")
-    public CommentBean saveComment(Long ownerUserId, Long targetUserId, String content, Long parentId, Short parentType) {
+    public CommentsBean saveComment(Long ownerUserId, Long targetUserId, String content, Long parentId, Short parentType) {
         Comments comment = commentService.saveComment(ownerUserId, targetUserId, content, parentId, parentType);
         if (comment != null) {
-            CommentBean commentBean = new CommentBean();
-            commentBean.inject(comment);
-            return commentBean;
+            CommentsBean commentsBean = new CommentsBean();
+            commentsBean.inject(comment);
+            return commentsBean;
         }
         return null;
     }
@@ -36,14 +42,29 @@ public class CommentController extends BaseController {
 
     @ApiOperation(value = "获取活动评论明细", notes = "根据activityId获取评论总数List")
     @GetMapping(value = "comments")
-    public List<CommentBean> comments(@RequestParam(required = true, value = "activityId") Long activityId) {
+    public List<CommentsBean> comments(@RequestParam(required = true, value = "activityId") Long activityId) {
         List<Comments> comments = commentService.comments(activityId);
-        List<CommentBean> commentBeans = new ArrayList<CommentBean>();
-        for (Comments comment : comments) {
-            CommentBean commentBean = new CommentBean();
-            commentBean.inject(comment);
-            commentBeans.add(commentBean);
+        List<CommentsBean> commentsBeans = new ArrayList<CommentsBean>();
+        Long[] idslong = new Long[comments.size()];
+        if (comments.size()>0){
+            for (int i = 0;i<comments.size();i++){
+                idslong[i] = comments.get(i).getOwnerUserId();
+            }
         }
-        return commentBeans;
+        List<WxUsers> wxUsers = wxUserService.wxUsersListByIdIn(idslong);
+        for (Comments comment : comments) {
+            CommentsBean commentsBean = new CommentsBean();
+            commentsBean.inject(comment);
+            for (int n=0;n<wxUsers.size();n++){
+                if (!StringUtils.isEmpty(comment.getTargetUserId())&&comment.getTargetUserId().equals(wxUsers.get(n).getId())){
+                    commentsBean.setTargetUserName(wxUsers.get(n).getWxName());
+                }
+                if (!StringUtils.isEmpty(comment.getOwnerUserId())&&comment.getOwnerUserId().equals(wxUsers.get(n).getId())){
+                    commentsBean.setOwnerUserName(wxUsers.get(n).getWxName());
+                }
+            }
+            commentsBeans.add(commentsBean);
+        }
+        return commentsBeans;
     }
 }

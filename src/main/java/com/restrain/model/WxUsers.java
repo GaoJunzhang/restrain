@@ -1,11 +1,12 @@
 package com.restrain.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "wx_users", schema = "restrain", catalog = "")
-public class WxUsers {
+@Table(name = "wx_users")
+public class WxUsers implements Serializable{
     private long id;
     private String wxName;
     private String nickName;

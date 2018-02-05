@@ -1,15 +1,14 @@
 package com.restrain.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by user on 2018/1/30.
  */
 @Entity
-public class Great {
+@Table(name = "great")
+public class Great implements Serializable{
     private long id;
     private Long activityId;
     private Long wxUserId;
