@@ -26,7 +26,7 @@ public class SignService {
     @Autowired
     private SignRepository signRepository;
 
-    public Page<Sign> Signs(Long activityId,int page, int size, String sortType, String sortValue) {
+    public Page<Sign> Signs(Long activityId, int page, int size, String sortType, String sortValue) {
         String[] svs = sortValue.split(",");
         String[] sts = sortType.split(",");
 

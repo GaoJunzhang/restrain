@@ -7,23 +7,23 @@ import java.lang.reflect.Field;
 
 public class MainBean {
 
-	private Integer srmResult;
-	private String srmMsg;
+	private Integer Result;
+	private String Msg;
 
-	public Integer getSrmResult() {
-		return srmResult;
+	public Integer getResult() {
+		return Result;
 	}
 
-	public void setSrmResult(Integer srmResult) {
-		this.srmResult = srmResult;
+	public void setResult(Integer result) {
+		Result = result;
 	}
 
-	public String getSrmMsg() {
-		return srmMsg;
+	public String getMsg() {
+		return Msg;
 	}
 
-	public void setSrmMsg(String srmMsg) {
-		this.srmMsg = srmMsg;
+	public void setMsg(String msg) {
+		Msg = msg;
 	}
 
 	public void inject(Object bean) {

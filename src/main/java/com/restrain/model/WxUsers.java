@@ -15,7 +15,7 @@ public class WxUsers implements Serializable{
     private String tel;
     private Short status;
     private Timestamp loginTime;
-    private String openid;
+    private String wxno;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -98,13 +98,13 @@ public class WxUsers implements Serializable{
     }
 
     @Basic
-    @Column(name = "openid", nullable = true, length = 24)
-    public String getOpenid() {
-        return openid;
+    @Column(name = "wxno", nullable = false, length = 24)
+    public String getWxno() {
+        return wxno;
     }
 
-    public void setOpenid(String openid) {
-        this.openid = openid;
+    public void setWxno(String wxno) {
+        this.wxno = wxno;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class WxUsers implements Serializable{
         if (tel != null ? !tel.equals(wxUsers.tel) : wxUsers.tel != null) return false;
         if (status != null ? !status.equals(wxUsers.status) : wxUsers.status != null) return false;
         if (loginTime != null ? !loginTime.equals(wxUsers.loginTime) : wxUsers.loginTime != null) return false;
-        if (openid != null ? !openid.equals(wxUsers.openid) : wxUsers.openid != null) return false;
+        if (wxno != null ? !wxno.equals(wxUsers.wxno) : wxUsers.wxno != null) return false;
 
         return true;
     }
@@ -137,7 +137,7 @@ public class WxUsers implements Serializable{
         result = 31 * result + (tel != null ? tel.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (loginTime != null ? loginTime.hashCode() : 0);
-        result = 31 * result + (openid != null ? openid.hashCode() : 0);
+        result = 31 * result + (wxno != null ? wxno.hashCode() : 0);
         return result;
     }
 }

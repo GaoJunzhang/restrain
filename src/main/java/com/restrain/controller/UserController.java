@@ -26,15 +26,15 @@ public class UserController extends BaseController{
     public Map<String,Object> saveWxUserInfo(Long id, @RequestParam(name = "name",required = true) String wxName, String nickName, Short sex, String headImg, String tel, Short status, String wxno){
         Map<String,Object> map = new HashMap<>();
         if (wxUserService.findByOpenid(wxno).size()>0){
-            map.put("msg","已存在");
+            map.put("Msg","User Already exists");
         }else {
             WxUsers wxUsers = wxUserService.saveWxusers(id,wxName,nickName,sex,headImg,tel,status,wxno);
             if (wxUsers!=null){
                 /*WxUserBean wxUserBean = new WxUserBean();
                 wxUserBean.inject(wxUsers);*/
-                map.put("msg","保存成功");
+                map.put("Msg","success");
             }else {
-                map.put("msg","失败");
+                map.put("Msg","error");
             }
         }
         return map;

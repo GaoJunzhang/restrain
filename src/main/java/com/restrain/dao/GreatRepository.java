@@ -7,11 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface GreatRepository extends JpaRepository<Great,Long> {
 
-    @Transactional
-    int deleteByWxUserIdAndActivityId(@Param(value = "wxUserId") Long wxUserId,@Param(value = "activityId") Long activityId);
+    /*@Transactional
+    int deleteByWxUserIdAndActivityId(@Param(value = "wxUserId") Long wxUserId,@Param(value = "activityId") Long activityId);*/
 
     int countByActivityId(@Param(value = "activityId") Long activityId);
 
-    int countByActivityIdAndWxUserId(@Param(value = "activityId") Long activityId,@Param(value = "wxUserId") Long wxUserId);
+//    int countByActivityIdAndWxUserId(@Param(value = "activityId") Long activityId,@Param(value = "wxUserId") Long wxUserId);
+
+    int countByActivityIdAndWxNo(@Param(value = "activityId") Long activityId,@Param(value = "wxno") String wxno);
+
+    @Transactional
+    int deleteByWxNoAndActivityId(@Param(value = "wxno") String wxno,@Param(value = "activityId") Long activityId);
 
 }

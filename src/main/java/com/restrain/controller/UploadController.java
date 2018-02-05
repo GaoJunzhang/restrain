@@ -33,12 +33,14 @@ public class UploadController extends BaseController{
 	 */
 	@Api(name = ApiConstant.UPLOAD_IMAGE)
 	@RequestMapping(value = "uploadImage", method = RequestMethod.POST, produces = "application/json")
-	public Map<String,Object> uploadImage(@RequestParam(required=true,value="file")MultipartFile file){
+	public Map<String,Object> uploadImage(@RequestParam(required=true,value="file")MultipartFile file,String path){
 		if(null == file){
 			return rtnParam(40010, null);
 		}
 		String random = RandomStringUtils.randomAlphabetic(16);
-		String fileName = random + ".jpg";
+		String fileName = file.getOriginalFilename();
+		String fileTyle=fileName.substring(fileName.lastIndexOf("."),fileName.length());
+		fileName = random+fileTyle;
 		try {
 			String uploadDirName = imgLocalPath.substring(imgLocalPath.lastIndexOf("/"), imgLocalPath.length());
 			FileCopyUtils.copy(file.getBytes(), new File(imgLocalPath + "/", fileName));

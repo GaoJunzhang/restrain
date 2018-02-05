@@ -24,11 +24,12 @@ public class CommentController extends BaseController {
 
     @ApiOperation(value = "添加评论", notes = "添加评论")
     @RequestMapping(value = "saveComment", method = RequestMethod.POST, produces = "application/json")
-    public CommentsBean saveComment(Long ownerUserId, Long targetUserId, String content, Long parentId, Short parentType) {
+    public CommentsBean saveComment(String ownerUserId, String targetUserId, String content, Long parentId, Short parentType) {
         Comments comment = commentService.saveComment(ownerUserId, targetUserId, content, parentId, parentType);
         if (comment != null) {
             CommentsBean commentsBean = new CommentsBean();
             commentsBean.inject(comment);
+            commentsBean.setMsg("success");
             return commentsBean;
         }
         return null;
@@ -45,7 +46,7 @@ public class CommentController extends BaseController {
     public List<CommentsBean> comments(@RequestParam(required = true, value = "activityId") Long activityId) {
         List<Comments> comments = commentService.comments(activityId);
         List<CommentsBean> commentsBeans = new ArrayList<CommentsBean>();
-        Long[] idslong = new Long[comments.size()];
+        String[] idslong = new String[comments.size()];
         if (comments.size()>0){
             for (int i = 0;i<comments.size();i++){
                 idslong[i] = comments.get(i).getOwnerUserId();

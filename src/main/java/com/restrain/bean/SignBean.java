@@ -20,4 +20,6 @@ public class SignBean extends MainBean{
     private String content;
     private String position;
     private String isHide;
+    private Long userId;
+    private String wxno;
 }

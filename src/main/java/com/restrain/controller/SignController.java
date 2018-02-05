@@ -43,11 +43,12 @@ public class SignController extends BaseController{
 
     @ApiOperation(value = "打卡",notes = "签到打卡")
     @PostMapping(path = "/saveSign")
-    public SignBean saveSign(Long wxUserId,Long activityId, String img, String video, String music, String content, String position, String isHide){
-        Sign sign = signService.saveSign(null,wxUserId,activityId,img,video,music,content,position,isHide);
+    public SignBean saveSign(Long wxno,Long activityId, String img, String video, String music, String content, String position, String isHide){
+        Sign sign = signService.saveSign(null,wxno,activityId,img,video,music,content,position,isHide);
         SignBean signBean = new SignBean();
         if (sign!=null){
             signBean.inject(sign);
+            signBean.setMsg("success");
             return signBean;
         }
         return null;

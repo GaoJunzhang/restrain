@@ -13,7 +13,7 @@ public class WxUserService {
     @Autowired
     private WxUserRepository wxUserRepository;
 
-    public WxUsers saveWxusers(Long id, String wxName, String nickName, Short sex, String img, String tel, Short status, String openId) {
+    public WxUsers saveWxusers(Long id, String wxName, String nickName, Short sex, String img, String tel, Short status, String wxno) {
         WxUsers wxUsers = null;
         if (id == null) {
             wxUsers = new WxUsers();
@@ -27,7 +27,7 @@ public class WxUserService {
         wxUsers.setImg(img);
         wxUsers.setTel(tel);
         wxUsers.setStatus(status);
-        wxUsers.setOpenid(openId);
+        wxUsers.setWxno(wxno);
         return wxUserRepository.save(wxUsers);
     }
 
@@ -35,11 +35,11 @@ public class WxUserService {
         return wxUserRepository.findOne(id);
     }
 
-    public List<WxUsers> wxUsersListByIdIn(Long[] ids) {
-        return wxUserRepository.findByIdIn(ids);
+    public List<WxUsers> wxUsersListByIdIn(String[] wxnos) {
+        return wxUserRepository.findByWxnoIn(wxnos);
     }
 
     public List<WxUsers> findByOpenid(String openId) {
-        return wxUserRepository.findByOpenid(openId);
+        return wxUserRepository.findByWxno(openId);
     }
 }

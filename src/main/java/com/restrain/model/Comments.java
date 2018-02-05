@@ -4,14 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 @Entity
 @Table(name = "comments")
 public class Comments implements Serializable{
     private long id;
-    private Long ownerUserId;
-    private Long targetUserId;
+    private String ownerUserId;
+    private String targetUserId;
     private String content;
     private Timestamp createrTime;
     private Long parentId;
@@ -19,8 +17,7 @@ public class Comments implements Serializable{
     private Long activityId;
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(name = "id", nullable = false)
     public long getId() {
         return id;
     }
@@ -30,22 +27,22 @@ public class Comments implements Serializable{
     }
 
     @Basic
-    @Column(name = "owner_user_id", nullable = true)
-    public Long getOwnerUserId() {
+    @Column(name = "owner_user_id", nullable = true, length = 32)
+    public String getOwnerUserId() {
         return ownerUserId;
     }
 
-    public void setOwnerUserId(Long ownerUserId) {
+    public void setOwnerUserId(String ownerUserId) {
         this.ownerUserId = ownerUserId;
     }
 
     @Basic
-    @Column(name = "target_user_id", nullable = true)
-    public Long getTargetUserId() {
+    @Column(name = "target_user_id", nullable = true, length = 32)
+    public String getTargetUserId() {
         return targetUserId;
     }
 
-    public void setTargetUserId(Long targetUserId) {
+    public void setTargetUserId(String targetUserId) {
         this.targetUserId = targetUserId;
     }
 

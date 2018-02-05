@@ -4,9 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * Created by user on 2018/1/30.
- */
 @Entity
 @Table(name = "sign")
 public class Sign implements Serializable{
@@ -20,9 +17,10 @@ public class Sign implements Serializable{
     private String position;
     private String isHide;
     private Long userId;
+    private String wxno;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public long getId() {
         return id;
     }
@@ -32,7 +30,7 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "activity_id")
+    @Column(name = "activity_id", nullable = true)
     public Long getActivityId() {
         return activityId;
     }
@@ -42,7 +40,7 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = true)
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -52,7 +50,7 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "img")
+    @Column(name = "img", nullable = true, length = 100)
     public String getImg() {
         return img;
     }
@@ -62,7 +60,7 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "video")
+    @Column(name = "video", nullable = true, length = 100)
     public String getVideo() {
         return video;
     }
@@ -72,7 +70,7 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "music")
+    @Column(name = "music", nullable = true, length = 100)
     public String getMusic() {
         return music;
     }
@@ -82,7 +80,7 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "content")
+    @Column(name = "content", nullable = true, length = -1)
     public String getContent() {
         return content;
     }
@@ -92,7 +90,7 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "position")
+    @Column(name = "position", nullable = true, length = 255)
     public String getPosition() {
         return position;
     }
@@ -102,13 +100,33 @@ public class Sign implements Serializable{
     }
 
     @Basic
-    @Column(name = "is_hide")
+    @Column(name = "is_hide", nullable = true, length = 255)
     public String getIsHide() {
         return isHide;
     }
 
     public void setIsHide(String isHide) {
         this.isHide = isHide;
+    }
+
+    @Basic
+    @Column(name = "user_id", nullable = true)
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "wxno", nullable = true, length = 32)
+    public String getWxno() {
+        return wxno;
+    }
+
+    public void setWxno(String wxno) {
+        this.wxno = wxno;
     }
 
     @Override
@@ -127,6 +145,8 @@ public class Sign implements Serializable{
         if (content != null ? !content.equals(sign.content) : sign.content != null) return false;
         if (position != null ? !position.equals(sign.position) : sign.position != null) return false;
         if (isHide != null ? !isHide.equals(sign.isHide) : sign.isHide != null) return false;
+        if (userId != null ? !userId.equals(sign.userId) : sign.userId != null) return false;
+        if (wxno != null ? !wxno.equals(sign.wxno) : sign.wxno != null) return false;
 
         return true;
     }
@@ -142,16 +162,8 @@ public class Sign implements Serializable{
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (isHide != null ? isHide.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (wxno != null ? wxno.hashCode() : 0);
         return result;
-    }
-
-    @Basic
-    @Column(name = "user_id")
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 }

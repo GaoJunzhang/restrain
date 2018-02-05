@@ -15,15 +15,16 @@ public class GreatController extends BaseController{
 
     @ApiOperation(value = "点赞", notes = "点赞用户id，点赞活动id")
     @PostMapping(value = "saveGreat")
-    public GreatBean saveGreat(@RequestParam(required = true,value = "wxUserId") Long wxUserId,@RequestParam(required = true,value = "activityId") Long activityId) {
-        if (greatService.countByActivityIdAndWxUserId(activityId, wxUserId) > 0) {
-            greatService.deleteByWxUserIdAndActivityId(wxUserId,activityId);
+    public GreatBean saveGreat(@RequestParam(required = true,value = "wxno") String wxno,@RequestParam(required = true,value = "activityId") Long activityId) {
+        if (greatService.countByActivityIdAndWxNo(activityId, wxno) > 0) {
+            greatService.deleteByWxNoAndActivityId(wxno,activityId);
             return null;
         }
-        Great great = greatService.saveGreate(activityId, wxUserId);
+        Great great = greatService.saveGreate(activityId, wxno);
         if (great != null){
             GreatBean greatBean = new GreatBean();
             greatBean.inject(great);
+            greatBean.setMsg("success");
             return greatBean;
         }
         return null;

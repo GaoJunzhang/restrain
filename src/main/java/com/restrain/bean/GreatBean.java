@@ -9,5 +9,6 @@ public class GreatBean extends MainBean{
     private long id;
     private Long activityId;
     private Long wxUserId;
+    private String wxNo;
 
 }

@@ -28,11 +28,12 @@ public class ActivityController {
 
     @PostMapping(path = "/saveActivity")
     @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
-    public ActivityBean saveActivity(Long id, String name, String wxno, String content, Short isTime, String startDate, String endDate, Short isSign, Short style, String limits, String img, String video, String music) {
-        Activity activity = activityService.saveActivity(id, name, wxno, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, style, limits, img, video, music);
+    public ActivityBean saveActivity(Long id, String name, String wxno, String content, Short isTime, String startDate, String endDate, Short isSign, Short style, String limits, String bgImg, String video, String music,String bgColor) {
+        Activity activity = activityService.saveActivity(id, name, wxno, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, style, limits, bgImg, video, music,bgColor);
         ActivityBean activityBean = new ActivityBean();
         if (activity != null) {
             activityBean.inject(activity);
+            activityBean.setMsg("success");
             return activityBean;
         }
         return null;
@@ -43,6 +44,7 @@ public class ActivityController {
         ActivityBean activityBean = new ActivityBean();
         if (activity!=null){
             activityBean.inject(activity);
+            activityBean.setMsg("success");
             return activityBean;
         }
         return null;

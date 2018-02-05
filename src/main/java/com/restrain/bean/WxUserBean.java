@@ -16,5 +16,5 @@ public class WxUserBean extends MainBean{
     private String tel;
     private Short status;
     private Timestamp loginTime;
-    private String openid;
+    private String wxno;
 }

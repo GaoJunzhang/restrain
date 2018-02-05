@@ -5,9 +5,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * Created by user on 2018/1/30.
- */
 @Entity
 @Table(name = "activity")
 public class Activity implements Serializable{
@@ -20,17 +17,17 @@ public class Activity implements Serializable{
     private Date startDate;
     private Date endDate;
     private Short isSign;
+    private Short isLimit;
     private String limits;
     private String img;
     private String video;
-    private Integer likeCount;
     private String music;
-    private Short isLimit;
+    private Integer likeCount;
     private String bgImg;
     private String bgColor;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public long getId() {
         return id;
     }
@@ -40,7 +37,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = true, length = 50)
     public String getName() {
         return name;
     }
@@ -50,7 +47,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "creater_wx_id")
+    @Column(name = "creater_wx_id", nullable = true, length = 19)
     public String getCreaterWxId() {
         return createrWxId;
     }
@@ -60,7 +57,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = true)
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -70,7 +67,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "content")
+    @Column(name = "content", nullable = true, length = -1)
     public String getContent() {
         return content;
     }
@@ -80,7 +77,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "is_time")
+    @Column(name = "is_time", nullable = true)
     public Short getIsTime() {
         return isTime;
     }
@@ -90,7 +87,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = true)
     public Date getStartDate() {
         return startDate;
     }
@@ -100,7 +97,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = true)
     public Date getEndDate() {
         return endDate;
     }
@@ -110,7 +107,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "is_sign")
+    @Column(name = "is_sign", nullable = true)
     public Short getIsSign() {
         return isSign;
     }
@@ -120,57 +117,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "limits")
-    public String getLimits() {
-        return limits;
-    }
-
-    public void setLimits(String limits) {
-        this.limits = limits;
-    }
-
-    @Basic
-    @Column(name = "img")
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    @Basic
-    @Column(name = "video")
-    public String getVideo() {
-        return video;
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
-    }
-
-    @Basic
-    @Column(name = "like_count")
-    public Integer getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    @Basic
-    @Column(name = "music")
-    public String getMusic() {
-        return music;
-    }
-
-    public void setMusic(String music) {
-        this.music = music;
-    }
-
-    @Basic
-    @Column(name = "is_limit")
+    @Column(name = "is_limit", nullable = true)
     public Short getIsLimit() {
         return isLimit;
     }
@@ -180,7 +127,57 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "bg_img")
+    @Column(name = "limits", nullable = true, length = -1)
+    public String getLimits() {
+        return limits;
+    }
+
+    public void setLimits(String limits) {
+        this.limits = limits;
+    }
+
+    @Basic
+    @Column(name = "img", nullable = true, length = 100)
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    @Basic
+    @Column(name = "video", nullable = true, length = 100)
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    @Basic
+    @Column(name = "music", nullable = true, length = 100)
+    public String getMusic() {
+        return music;
+    }
+
+    public void setMusic(String music) {
+        this.music = music;
+    }
+
+    @Basic
+    @Column(name = "like_count", nullable = true)
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    @Basic
+    @Column(name = "bg_img", nullable = true, length = 255)
     public String getBgImg() {
         return bgImg;
     }
@@ -190,7 +187,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "bg_color")
+    @Column(name = "bg_color", nullable = true, length = 255)
     public String getBgColor() {
         return bgColor;
     }
@@ -216,12 +213,12 @@ public class Activity implements Serializable{
         if (startDate != null ? !startDate.equals(activity.startDate) : activity.startDate != null) return false;
         if (endDate != null ? !endDate.equals(activity.endDate) : activity.endDate != null) return false;
         if (isSign != null ? !isSign.equals(activity.isSign) : activity.isSign != null) return false;
+        if (isLimit != null ? !isLimit.equals(activity.isLimit) : activity.isLimit != null) return false;
         if (limits != null ? !limits.equals(activity.limits) : activity.limits != null) return false;
         if (img != null ? !img.equals(activity.img) : activity.img != null) return false;
         if (video != null ? !video.equals(activity.video) : activity.video != null) return false;
-        if (likeCount != null ? !likeCount.equals(activity.likeCount) : activity.likeCount != null) return false;
         if (music != null ? !music.equals(activity.music) : activity.music != null) return false;
-        if (isLimit != null ? !isLimit.equals(activity.isLimit) : activity.isLimit != null) return false;
+        if (likeCount != null ? !likeCount.equals(activity.likeCount) : activity.likeCount != null) return false;
         if (bgImg != null ? !bgImg.equals(activity.bgImg) : activity.bgImg != null) return false;
         if (bgColor != null ? !bgColor.equals(activity.bgColor) : activity.bgColor != null) return false;
 
@@ -239,12 +236,12 @@ public class Activity implements Serializable{
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (isSign != null ? isSign.hashCode() : 0);
+        result = 31 * result + (isLimit != null ? isLimit.hashCode() : 0);
         result = 31 * result + (limits != null ? limits.hashCode() : 0);
         result = 31 * result + (img != null ? img.hashCode() : 0);
         result = 31 * result + (video != null ? video.hashCode() : 0);
-        result = 31 * result + (likeCount != null ? likeCount.hashCode() : 0);
         result = 31 * result + (music != null ? music.hashCode() : 0);
-        result = 31 * result + (isLimit != null ? isLimit.hashCode() : 0);
+        result = 31 * result + (likeCount != null ? likeCount.hashCode() : 0);
         result = 31 * result + (bgImg != null ? bgImg.hashCode() : 0);
         result = 31 * result + (bgColor != null ? bgColor.hashCode() : 0);
         return result;

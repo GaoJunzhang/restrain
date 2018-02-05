@@ -13,7 +13,7 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public Comments saveComment(Long ownerUserId, Long targetUserId, String content, Long parentId, Short parentType){
+    public Comments saveComment(String ownerUserId, String targetUserId, String content, Long parentId, Short parentType){
 
         Comments comment = new Comments();
         comment.setOwnerUserId(ownerUserId);

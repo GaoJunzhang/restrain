@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 public class CommentsBean extends MainBean{
 
     private long id;
-    private Long ownerUserId;
-    private Long targetUserId;
+    private String ownerUserId;
+    private String targetUserId;
     private String content;
     private Timestamp createrTime;
     private Long parentId;
