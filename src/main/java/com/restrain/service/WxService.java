@@ -44,6 +44,9 @@ public class WxService {
 		sb.append("&js_code=").append(wxCode);
 		sb.append("&grant_type=").append(grantType);
 		String res = HttpRequest.sendGet(sessionHost, sb.toString());
+		System.out.println("=============================");
+		System.out.println(res);
+		System.out.println("=================================");
 		if(res == null || res.equals("")){
 			return null;
 		}

@@ -55,9 +55,9 @@ public class WxAuthController extends BaseController{
 		String wxOpenId = (String)wxSessionMap.get("openid");
 		String wxSessionKey = (String)wxSessionMap.get("session_key");
 		System.out.println(wxSessionKey);
-		Long expires = Long.valueOf(String.valueOf(wxSessionMap.get("expires_in")));
-		String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, expires);
-		return rtnParam(0, ImmutableMap.of("sessionId",thirdSession));
+//		Long expires = Long.valueOf(String.valueOf(wxSessionMap.get("expires_in")));
+		String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, (long)7200);
+		return rtnParam(0, ImmutableMap.of("sessionId",thirdSession,"openid",wxOpenId));
 	}
 
 	/**

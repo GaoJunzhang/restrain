@@ -28,7 +28,7 @@ public class WxUsers implements Serializable{
     }
 
     @Basic
-    @Column(name = "wx_name", nullable = true, length = 20)
+    @Column(name = "wx_name", nullable = true, length = 50)
     public String getWxName() {
         return wxName;
     }
@@ -38,7 +38,7 @@ public class WxUsers implements Serializable{
     }
 
     @Basic
-    @Column(name = "nick_name", nullable = true, length = 20)
+    @Column(name = "nick_name", nullable = true, length = 50)
     public String getNickName() {
         return nickName;
     }
@@ -58,7 +58,7 @@ public class WxUsers implements Serializable{
     }
 
     @Basic
-    @Column(name = "img", nullable = true, length = 100)
+    @Column(name = "img", nullable = true, length = 500)
     public String getImg() {
         return img;
     }
@@ -98,7 +98,7 @@ public class WxUsers implements Serializable{
     }
 
     @Basic
-    @Column(name = "wxno", nullable = false, length = 24)
+    @Column(name = "wxno", nullable = false, length = 32)
     public String getWxno() {
         return wxno;
     }
