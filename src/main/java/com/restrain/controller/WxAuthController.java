@@ -111,13 +111,6 @@ public class WxAuthController extends BaseController{
 		System.out.println(iv);
 		//从缓存中获取session_key
 		Object wxSessionObj = redisUtil.get(sessionId);
-		System.out.println("=========================");
-		System.out.println("=========================");
-		System.out.println("=========================");
-		System.out.println(wxSessionObj);
-		System.out.println("=========================");
-		System.out.println("=========================");
-		System.out.println("=========================");
 		if(null == wxSessionObj){
 			return rtnParam(40008, null);
 		}
@@ -129,13 +122,6 @@ public class WxAuthController extends BaseController{
 			byte[] resultByte = aes.decrypt(Base64.decodeBase64(encryptedData), Base64.decodeBase64(sessionKey[0]), Base64.decodeBase64(iv));
 			if(null != resultByte && resultByte.length > 0){
 				String userInfo = new String(resultByte, "UTF-8");
-				System.out.println("=========================");
-				System.out.println("=========================");
-				System.out.println("=========================");
-				System.out.println(userInfo);
-				System.out.println("=========================");
-				System.out.println("=========================");
-				System.out.println("=========================");
 				JSONObject jsonObject = new JSONObject(new String(resultByte, "UTF-8"));
 				short sex = (short) jsonObject.getInt("gender");
 				if (wxUserService.findByOpenid(sessionKey[1]).size()<=0){

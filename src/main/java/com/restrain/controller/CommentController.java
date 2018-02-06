@@ -37,14 +37,14 @@ public class CommentController extends BaseController {
 
     @ApiOperation(value = "获取评论总数", notes = "根据活动id获取总评论数量")
     @RequestMapping(value = "sunmComment", method = RequestMethod.GET, produces = "application/json")
-    public int sunmComment(Long activityId) {
-        return commentService.sumComment(activityId);
+    public int sunmComment(Long signId) {
+        return commentService.sumComment(signId);
     }
 
     @ApiOperation(value = "获取活动评论明细", notes = "根据activityId获取评论总数List")
     @GetMapping(value = "comments")
-    public List<CommentsBean> comments(@RequestParam(required = true, value = "activityId") Long activityId) {
-        List<Comments> comments = commentService.comments(activityId);
+    public List<CommentsBean> comments(@RequestParam(required = true, value = "signId") Long signId) {
+        List<Comments> comments = commentService.comments(signId);
         List<CommentsBean> commentsBeans = new ArrayList<CommentsBean>();
         String[] idslong = new String[comments.size()];
         if (comments.size()>0){

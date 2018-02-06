@@ -14,7 +14,7 @@ public class Comments implements Serializable{
     private Timestamp createrTime;
     private Long parentId;
     private Short parentType;
-    private Long activityId;
+    private Long signId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -87,13 +87,13 @@ public class Comments implements Serializable{
     }
 
     @Basic
-    @Column(name = "activity_id", nullable = true)
-    public Long getActivityId() {
-        return activityId;
+    @Column(name = "sign_id", nullable = true)
+    public Long getSignId() {
+        return signId;
     }
 
-    public void setActivityId(Long activityId) {
-        this.activityId = activityId;
+    public void setSignId(Long signId) {
+        this.signId = signId;
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Comments implements Serializable{
             return false;
         if (parentId != null ? !parentId.equals(comments.parentId) : comments.parentId != null) return false;
         if (parentType != null ? !parentType.equals(comments.parentType) : comments.parentType != null) return false;
-        if (activityId != null ? !activityId.equals(comments.activityId) : comments.activityId != null) return false;
+        if (signId != null ? !signId.equals(comments.signId) : comments.signId != null) return false;
 
         return true;
     }
@@ -127,7 +127,7 @@ public class Comments implements Serializable{
         result = 31 * result + (createrTime != null ? createrTime.hashCode() : 0);
         result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
         result = 31 * result + (parentType != null ? parentType.hashCode() : 0);
-        result = 31 * result + (activityId != null ? activityId.hashCode() : 0);
+        result = 31 * result + (signId != null ? signId.hashCode() : 0);
         return result;
     }
 }

@@ -25,11 +25,11 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public int sumComment(Long activityId){
-        return commentRepository.countByActivityId(activityId);
+    public int sumComment(Long signId){
+        return commentRepository.countBySignId(signId);
     }
 
-    public List<Comments> comments(Long activityId){
-        return commentRepository.findByActivityId(activityId);
+    public List<Comments> comments(Long signId){
+        return commentRepository.findBySignId(signId);
     }
 }

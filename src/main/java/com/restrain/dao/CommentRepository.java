@@ -12,8 +12,8 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comments,Long> {
 
 //    @Query(value = "SELECT t1.wx_name,t.content,t.creater_time,t.parent_type from comments t left join wx_users t1 on t.owner_user_id=t1.id and t.activity_id=:activityId ",nativeQuery = true)
-    public List<Comments> findByActivityId(@Param("activityId") Long activityId);
+    public List<Comments> findBySignId(@Param("signId") Long signId);
 
-    int countByActivityId(@Param(value = "activityId") Long activityId);
+    int countBySignId(@Param(value = "signId") Long signId);
 
 }
