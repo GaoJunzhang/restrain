@@ -125,7 +125,7 @@ public class WxAuthController extends BaseController{
 				JSONObject jsonObject = new JSONObject(new String(resultByte, "UTF-8"));
 				short sex = (short) jsonObject.getInt("gender");
 				if (wxUserService.findByOpenid(sessionKey[1]).size()<=0){
-					wxUserService.saveWxusers(null,jsonObject.getString("nickName"),jsonObject.getString("nickName"),sex,null,null,(short)1,jsonObject.getString("openId"));
+					wxUserService.saveWxusers(null,jsonObject.getString("nickName"),jsonObject.getString("nickName"),sex,jsonObject.getString("avatarUrl"),null,(short)1,jsonObject.getString("openId"));
 				}
 				return rtnParam(0, jsonObject.toString());
 			}
