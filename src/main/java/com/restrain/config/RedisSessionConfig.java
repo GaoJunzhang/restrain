@@ -8,6 +8,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 @Configuration
 //maxInactiveIntervalInSeconds session超时时间,单位秒
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 600)
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 7200)
 public class RedisSessionConfig {
 }
