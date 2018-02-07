@@ -18,6 +18,8 @@ public class Sign implements Serializable{
     private String isHide;
     private Long userId;
     private String wxno;
+    private Integer likeCount;
+    private String inviters;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -90,6 +92,16 @@ public class Sign implements Serializable{
     }
 
     @Basic
+    @Column(name = "inviters", nullable = true, length = -1)
+    public String getInviters() {
+        return inviters;
+    }
+
+    public void setInviters(String inviters) {
+        this.inviters = inviters;
+    }
+
+    @Basic
     @Column(name = "position", nullable = true, length = 255)
     public String getPosition() {
         return position;
@@ -147,6 +159,7 @@ public class Sign implements Serializable{
         if (isHide != null ? !isHide.equals(sign.isHide) : sign.isHide != null) return false;
         if (userId != null ? !userId.equals(sign.userId) : sign.userId != null) return false;
         if (wxno != null ? !wxno.equals(sign.wxno) : sign.wxno != null) return false;
+        if (inviters != null ? !inviters.equals(sign.inviters) : sign.inviters != null) return false;
 
         return true;
     }
@@ -164,6 +177,17 @@ public class Sign implements Serializable{
         result = 31 * result + (isHide != null ? isHide.hashCode() : 0);
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (wxno != null ? wxno.hashCode() : 0);
+        result = 31 * result + (inviters != null ? inviters.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "like_count")
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
     }
 }

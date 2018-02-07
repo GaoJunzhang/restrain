@@ -1,10 +1,12 @@
 package com.restrain.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.restrain.bean.CommentsBean;
 import com.restrain.model.Comments;
 import com.restrain.model.WxUsers;
 import com.restrain.service.CommentService;
 import com.restrain.service.WxUserService;
+import com.restrain.util.RedisUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CommentController extends BaseController {
@@ -22,15 +25,24 @@ public class CommentController extends BaseController {
     @Autowired
     private WxUserService wxUserService;
 
-    @ApiOperation(value = "添加评论", notes = "添加评论")
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @ApiOperation(value = "密一下中添加评论", notes = "添加评论")
     @RequestMapping(value = "saveComment", method = RequestMethod.POST, produces = "application/json")
-    public CommentsBean saveComment(String ownerUserId, String targetUserId, String content, Long parentId, Short parentType) {
-        Comments comment = commentService.saveComment(ownerUserId, targetUserId, content, parentId, parentType);
+    public Map<String,Object> saveComment(String sessionId,Long signId, String targetUserId, String content, Long parentId) {
+        Object wxSessionObj = redisUtil.get(sessionId);
+        if(null == wxSessionObj){
+            return rtnParam(40008, null);
+        }
+        String wxSessionStr = (String)wxSessionObj;
+        String openid = wxSessionStr.split("#")[1];
+        Comments comment = commentService.saveComment(openid, targetUserId, content, parentId, signId);
         if (comment != null) {
             CommentsBean commentsBean = new CommentsBean();
             commentsBean.inject(comment);
             commentsBean.setMsg("success");
-            return commentsBean;
+            return rtnParam(0, commentsBean);
         }
         return null;
     }
@@ -41,9 +53,15 @@ public class CommentController extends BaseController {
         return commentService.sumComment(signId);
     }
 
-    @ApiOperation(value = "获取活动评论明细", notes = "根据activityId获取评论总数List")
+    @ApiOperation(value = "密一下中评论", notes = "根据signId获取评论总数List")
     @GetMapping(value = "comments")
-    public List<CommentsBean> comments(@RequestParam(required = true, value = "signId") Long signId) {
+    public Map<String,Object> comments(String sessionId,@RequestParam(required = true, value = "signId") Long signId) {
+        Object wxSessionObj = redisUtil.get(sessionId);
+        if(null == wxSessionObj){
+            return rtnParam(40008, null);
+        }
+       /* String wxSessionStr = (String)wxSessionObj;
+        String openid = wxSessionStr.split("#")[1];*/
         List<Comments> comments = commentService.comments(signId);
         List<CommentsBean> commentsBeans = new ArrayList<CommentsBean>();
         String[] idslong = new String[comments.size()];
@@ -57,15 +75,15 @@ public class CommentController extends BaseController {
             CommentsBean commentsBean = new CommentsBean();
             commentsBean.inject(comment);
             for (int n=0;n<wxUsers.size();n++){
-                if (!StringUtils.isEmpty(comment.getTargetUserId())&&comment.getTargetUserId().equals(wxUsers.get(n).getId())){
+                if (!StringUtils.isEmpty(comment.getTargetUserId())&&comment.getTargetUserId().equals(wxUsers.get(n).getWxno())){
                     commentsBean.setTargetUserName(wxUsers.get(n).getWxName());
                 }
-                if (!StringUtils.isEmpty(comment.getOwnerUserId())&&comment.getOwnerUserId().equals(wxUsers.get(n).getId())){
+                if (!StringUtils.isEmpty(comment.getOwnerUserId())&&comment.getOwnerUserId().equals(wxUsers.get(n).getWxno())){
                     commentsBean.setOwnerUserName(wxUsers.get(n).getWxName());
                 }
             }
             commentsBeans.add(commentsBean);
         }
-        return commentsBeans;
+        return rtnParam(0, ImmutableMap.of("comments",commentsBeans));
     }
 }

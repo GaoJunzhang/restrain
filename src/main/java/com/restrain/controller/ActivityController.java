@@ -2,39 +2,54 @@ package com.restrain.controller;
 
 import com.restrain.bean.ActivityBean;
 import com.restrain.model.Activity;
+import com.restrain.model.Sign;
 import com.restrain.service.ActivityService;
+import com.restrain.service.SignService;
 import com.restrain.util.BeanPage;
+import com.restrain.util.RedisUtil;
 import com.restrain.util.StringTools;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by user on 2018/1/23.
  */
 @RestController
-public class ActivityController {
+public class ActivityController extends BaseController{
 
     private static final Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private SignService signService;
+
     @PostMapping(path = "/saveActivity")
     @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
-    public ActivityBean saveActivity(Long id, String name, String wxno, String content, Short isTime, String startDate, String endDate, Short isSign, Short style, String limits, String bgImg, String video, String music,String bgColor) {
-        Activity activity = activityService.saveActivity(id, name, wxno, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, style, limits, bgImg, video, music,bgColor);
-        ActivityBean activityBean = new ActivityBean();
+    public Map<String,Object> saveActivity(String sessionId,String name, String content, Short isTime, String startDate, String endDate, Short isSign, Short isLimit, String limits, String bgImg, String bgColor) {
+        Object wxSessionObj = redisUtil.get(sessionId);
+        if(null == wxSessionObj){
+            return rtnParam(40008, null);
+        }
+        String wxSessionStr = (String)wxSessionObj;
+        String sessionKey = wxSessionStr.split("#")[1];
+        Activity activity = activityService.saveActivity(null, name, sessionKey, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, isLimit, limits, bgImg, bgColor);
+//        ActivityBean activityBean = new ActivityBean();
         if (activity != null) {
-            activityBean.inject(activity);
-            activityBean.setMsg("success");
-            return activityBean;
+            return rtnParam(0, null);
         }
         return null;
     }
@@ -58,10 +73,30 @@ public class ActivityController {
         beanPage.setTotal(activities.getTotalElements());
         beanPage.setTotalPage(activities.getTotalPages());
         List<ActivityBean> activityBeans = new ArrayList<ActivityBean>();
+        List<Sign> signs = null;
+        int flagCount = 0;
+        String content = "";
         for (Activity activity : activities) {
-            ActivityBean ActivityBean = new ActivityBean();
-            ActivityBean.inject(activity);
-            activityBeans.add(ActivityBean);
+            ActivityBean activityBean = new ActivityBean();
+            activityBean.inject(activity);
+            //设置总flga数量
+            signs = signService.findByActivityId(activity.getId());
+            activityBean.setActivityFlagCount(signs.size());
+            if (signs.size()>0){
+                for (int i=0;i<signs.size();i++){
+                    flagCount += signs.get(i).getLikeCount();
+                    if (!StringUtils.isEmpty(signs.get(i).getContent())&&signs.get(i).getContent().length()>15){
+
+                        content += signs.get(i).getContent().substring(0,15)+"...;";
+                    }else {
+                        content += signs.get(i).getContent()+";";
+                    }
+                }
+            }
+            activityBean.setActivityDescribe(content);
+            //设置总点赞数量
+            activityBean.setActivityGreatCoun(flagCount);
+            activityBeans.add(activityBean);
         }
         beanPage.setRows(activityBeans);
         return beanPage;

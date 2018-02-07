@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Table(name = "great")
 public class Great implements Serializable{
     private long id;
-    private Long activityId;
+    private Long signId;
     private Long wxUserId;
     private String wxNo;
 
@@ -22,13 +22,13 @@ public class Great implements Serializable{
     }
 
     @Basic
-    @Column(name = "activity_id", nullable = true)
-    public Long getActivityId() {
-        return activityId;
+    @Column(name = "sign_id", nullable = true)
+    public Long getSignId() {
+        return signId;
     }
 
-    public void setActivityId(Long activityId) {
-        this.activityId = activityId;
+    public void setSignId(Long signId) {
+        this.signId = signId;
     }
 
     @Basic
@@ -59,7 +59,7 @@ public class Great implements Serializable{
         Great great = (Great) o;
 
         if (id != great.id) return false;
-        if (activityId != null ? !activityId.equals(great.activityId) : great.activityId != null) return false;
+        if (signId != null ? !signId.equals(great.signId) : great.signId != null) return false;
         if (wxUserId != null ? !wxUserId.equals(great.wxUserId) : great.wxUserId != null) return false;
         if (wxNo != null ? !wxNo.equals(great.wxNo) : great.wxNo != null) return false;
 
@@ -69,7 +69,7 @@ public class Great implements Serializable{
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (activityId != null ? activityId.hashCode() : 0);
+        result = 31 * result + (signId != null ? signId.hashCode() : 0);
         result = 31 * result + (wxUserId != null ? wxUserId.hashCode() : 0);
         result = 31 * result + (wxNo != null ? wxNo.hashCode() : 0);
         return result;

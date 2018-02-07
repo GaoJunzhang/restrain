@@ -11,23 +11,27 @@ public class GreatService {
     @Autowired
     private GreatRepository greatRepository;
 
-    public int deleteByWxNoAndActivityId(String wxno,Long activityId){
-        return greatRepository.deleteByWxNoAndActivityId(wxno,activityId);
+    public int deleteByWxNoAndSignId(String wxno,Long signId){
+        return greatRepository.deleteByWxNoAndSignId(wxno, signId);
     }
 
-    public int countByActivityId(Long activityId){
-        return greatRepository.countByActivityId(activityId);
+    public int countBySignId(Long signId){
+        return greatRepository.countBySignId(signId);
     }
 
-    public Great saveGreate(Long activityId, String wxno){
+    public Great saveGreate(Long signId, String wxno){
         Great great = new Great();
-        great.setActivityId(activityId);
+        great.setSignId(signId);
 //        great.setWxUserId(wxUserId);
         great.setWxNo(wxno);
         return greatRepository.save(great);
     }
 
-    public int countByActivityIdAndWxNo(Long activityId,String wxno){
-        return greatRepository.countByActivityIdAndWxNo(activityId, wxno);
+    public int countBySignIdAndWxNo(Long signId,String wxno){
+        return greatRepository.countBySignIdAndWxNo(signId,wxno);
+    }
+
+    public int updateSgin(Long signId){
+        return greatRepository.updateSgin(signId);
     }
 }

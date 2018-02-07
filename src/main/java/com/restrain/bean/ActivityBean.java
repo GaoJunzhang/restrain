@@ -29,4 +29,10 @@ public class ActivityBean extends MainBean {
     private Integer likeCount;
     private String bgImg;
     private String bgColor;
+
+    private Integer activityFlagCount;
+
+    private Integer activityGreatCoun;
+
+    private String activityDescribe;
 }

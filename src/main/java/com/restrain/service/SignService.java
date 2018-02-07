@@ -51,7 +51,7 @@ public class SignService {
         return signRepository.findAll(specification, pageable);
     }
 
-    public Sign saveSign(Long id,Long userId, Long activityId, String img, String video, String music, String content, String position, String isHide) {
+    public Sign saveSign(Long id,String wxno, Long activityId, String img, String video, String music, String content, String position, String isHide,String inviters) {
         Sign sign = null;
         if (id == null) {
             sign = new Sign();
@@ -59,7 +59,7 @@ public class SignService {
             sign = signRepository.findOne(id);
         }
         sign.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        sign.setUserId(userId);
+        sign.setWxno(wxno);
         sign.setActivityId(activityId);
         sign.setImg(img);
         sign.setVideo(video);
@@ -67,6 +67,13 @@ public class SignService {
         sign.setContent(content);
         sign.setPosition(position);
         sign.setIsHide(isHide);
+        sign.setInviters(inviters);
         return signRepository.save(sign);
     }
+
+    public int countByActivityId(Long activityId){
+        return signRepository.countByActivityId(activityId);
+    }
+
+    public List<Sign> findByActivityId(Long activityId){return signRepository.findByActivityId(activityId);}
 }

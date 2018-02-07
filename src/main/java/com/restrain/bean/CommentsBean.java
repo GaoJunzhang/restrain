@@ -1,5 +1,6 @@
 package com.restrain.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.restrain.annotation.RelevanceClass;
 import lombok.Data;
 
@@ -19,4 +20,13 @@ public class CommentsBean extends MainBean{
     private Long activityId;
     private String ownerUserName;
     private String targetUserName;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Timestamp getCreaterTime() {
+        return createrTime;
+    }
+
+    public void setCreaterTime(Timestamp createrTime) {
+        this.createrTime = createrTime;
+    }
 }

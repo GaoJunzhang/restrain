@@ -13,7 +13,7 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public Comments saveComment(String ownerUserId, String targetUserId, String content, Long parentId, Short parentType){
+    public Comments saveComment(String ownerUserId, String targetUserId, String content, Long parentId, Long signId){
 
         Comments comment = new Comments();
         comment.setOwnerUserId(ownerUserId);
@@ -21,7 +21,7 @@ public class CommentService {
         comment.setContent(content);
         comment.setCreaterTime(new Timestamp(System.currentTimeMillis()));
         comment.setParentId(parentId);
-        comment.setParentType(parentType);
+        comment.setSignId(signId);
         return commentRepository.save(comment);
     }
 

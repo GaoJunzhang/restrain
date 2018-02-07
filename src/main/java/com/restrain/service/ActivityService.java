@@ -28,7 +28,7 @@ public class ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
-    public Activity saveActivity(Long id, String name, String createrWxId, String content, Short isTime, Date startDate , Date endDate, Short isSign, Short style, String limits, String img, String video, String music,String bgColor){
+    public Activity saveActivity(Long id, String name, String createrWxId, String content, Short isTime, Date startDate , Date endDate, Short isSign, Short isLimit, String limits, String img, String bgColor){
         Activity activity = null;
         if (id==null){
             activity = new Activity();
@@ -43,11 +43,9 @@ public class ActivityService {
         activity.setStartDate(startDate);
         activity.setEndDate(endDate);
         activity.setIsSign(isSign);
-        activity.setIsLimit(style);
+        activity.setIsLimit(isLimit);
         activity.setLimits(limits);
         activity.setImg(img);
-        activity.setVideo(video);
-        activity.setMusic(music);
         activity.setBgColor(bgColor);
         return activityRepository.save(activity);
     }

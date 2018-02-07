@@ -3,7 +3,9 @@ package com.restrain.controller;
 import com.google.common.collect.ImmutableMap;
 import com.restrain.common.annotation.Api;
 import com.restrain.common.constant.ApiConstant;
+import com.restrain.util.RedisUtil;
 import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,9 @@ public class UploadController extends BaseController{
 	//文件网络访问路径
 	@Value("${img.host}")
 	private String imgHost;
+
+	@Autowired
+	private RedisUtil redisUtil;
 	
 	/**
 	 * 上传文件
@@ -32,8 +37,12 @@ public class UploadController extends BaseController{
 	 * @return
 	 */
 	@Api(name = ApiConstant.UPLOAD_IMAGE)
-	@RequestMapping(value = "uploadImage", method = RequestMethod.POST, produces = "application/json")
-	public Map<String,Object> uploadImage(@RequestParam(required=true,value="file")MultipartFile file,String path){
+	@RequestMapping(value = "upload", method = RequestMethod.POST, produces = "application/json")
+	public Map<String,Object> upload(String sessionId,@RequestParam(required=true,value="file")MultipartFile file,String path){
+		Object wxSessionObj = redisUtil.get(sessionId);
+		if(null == wxSessionObj){
+			return rtnParam(40008, null);
+		}
 		if(null == file){
 			return rtnParam(40010, null);
 		}
