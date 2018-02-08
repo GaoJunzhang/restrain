@@ -53,7 +53,6 @@ public class SignController extends BaseController{
         for (Sign sign : signs) {
             SignBean signBean = new SignBean();
             signBean.inject(sign);
-            //todo  设置评论总数和点赞总数
             signBean.setSignGreatSum(greatService.countBySignId(sign.getId())+"");
             signBean.setSignCommentSum(commentService.sumComment(sign.getId())+"");
             if (greatService.countBySignIdAndWxNo(sign.getId(),wxno)>0){

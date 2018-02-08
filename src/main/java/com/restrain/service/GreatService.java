@@ -5,6 +5,8 @@ import com.restrain.model.Great;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GreatService {
 
@@ -34,4 +36,6 @@ public class GreatService {
     public int updateSgin(Long signId){
         return greatRepository.updateSgin(signId);
     }
+
+    public List<Great> findBySignId (Long signId){return greatRepository.findBySignId(signId);}
 }

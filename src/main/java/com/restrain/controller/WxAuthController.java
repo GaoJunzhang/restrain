@@ -127,6 +127,13 @@ public class WxAuthController extends BaseController{
 				if (wxUserService.findByOpenid(sessionKey[1]).size()<=0){
 					wxUserService.saveWxusers(null,jsonObject.getString("nickName"),jsonObject.getString("nickName"),sex,jsonObject.getString("avatarUrl"),null,(short)1,jsonObject.getString("openId"));
 				}
+				System.out.println("===========开始打印用户信息=================");
+				System.out.println("============================");
+				System.out.println("============================");
+				System.out.println(jsonObject.toString());
+				System.out.println("=============结束打印用户信息===============");
+				System.out.println("============================");
+				System.out.println("============================");
 				return rtnParam(0, jsonObject.toString());
 			}
 		} catch (InvalidAlgorithmParameterException e) {

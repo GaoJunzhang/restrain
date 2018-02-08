@@ -16,4 +16,5 @@ public interface WxUserRepository extends JpaRepository<WxUsers,Long> {
     public List<WxUsers> findByWxno(@Param("wxno") String wxno);
 
     public List<WxUsers> findByWxnoIn(@Param("wxnos") String[] wxnos);
+
 }

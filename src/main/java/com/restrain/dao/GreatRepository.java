@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface GreatRepository extends JpaRepository<Great,Long> {
 
     /*@Transactional
@@ -25,5 +27,7 @@ public interface GreatRepository extends JpaRepository<Great,Long> {
     @Transactional
     @Query(value = "UPDATE sign  set like_count=like_count+1 where id=:signId",nativeQuery = true)
     int updateSgin(@Param("signId")Long signId);
+
+    public List<Great> findBySignId(@Param("signId") Long signId);
 
 }
