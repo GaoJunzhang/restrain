@@ -54,7 +54,7 @@ public class ActivityService {
         return activityRepository.findOne(id);
     }
 
-    public Page<Activity> activities(int page, int size, String sortType, String sortValue){
+    public Page<Activity> activities(String wxno,int page, int size, String sortType, String sortValue){
         String[] svs = sortValue.split(",");
         String[] sts = sortType.split(",");
 
@@ -70,9 +70,10 @@ public class ActivityService {
             @Override
             public Predicate toPredicate(Root<Activity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Predicate predicate = cb.conjunction();
-//                if (name != null && !name.trim().isEmpty()) {
-//                    predicate.getExpressions().add(cb.like(root.get("name"), "%" + name + "%"));
-//                }
+                if (wxno != null && !wxno.trim().isEmpty()) {
+//                    predicate.getExpressions().add(cb.like(root.get("createrWxId"), "%" + name + "%"));
+                    predicate.getExpressions().add(cb.equal(root.get("createrWxId"),wxno));
+                }
                 return predicate;
             }
 

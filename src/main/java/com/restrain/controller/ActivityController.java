@@ -1,5 +1,6 @@
 package com.restrain.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.restrain.bean.ActivityBean;
 import com.restrain.model.Activity;
 import com.restrain.model.Sign;
@@ -68,7 +69,7 @@ public class ActivityController extends BaseController{
     @GetMapping("/activitys")
     public BeanPage<ActivityBean> activityBeanPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
                                                    @RequestParam(defaultValue = "desc") String sortType, @RequestParam(defaultValue = "createTime") String sortValue){
-        Page<Activity> activities = activityService.activities(page,size,sortType,sortValue);
+        Page<Activity> activities = activityService.activities(null,page,size,sortType,sortValue);
         BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
         beanPage.setTotal(activities.getTotalElements());
         beanPage.setTotalPage(activities.getTotalPages());
@@ -179,4 +180,49 @@ public class ActivityController extends BaseController{
         printWriter.write(JSON.toJSONString(res));
         printWriter.flush();
     }*/
+
+    @ApiOperation(value = "我的密圈",notes = "根据用户wxno,查询我所参与和发起的密圈活动")
+    @GetMapping("myActivitys")
+    public Map<String,Object> myActivitys(@RequestParam(name = "sessionId",required = true) String sessionId,@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "desc") String sortType,
+                                          @RequestParam(defaultValue = "createTime") String sortValue){
+        Object wxSessionObj = redisUtil.get(sessionId);
+        if(null == wxSessionObj){
+            return rtnParam(40008, null);
+        }
+        String wxSessionStr = (String)wxSessionObj;
+        String sessionKey = wxSessionStr.split("#")[0];
+        Page<Activity> activities = activityService.activities(sessionKey,page,size,sortType,sortValue);
+        BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
+        beanPage.setTotal(activities.getTotalElements());
+        beanPage.setTotalPage(activities.getTotalPages());
+        List<ActivityBean> activityBeans = new ArrayList<ActivityBean>();
+        List<Sign> signs = null;
+        int flagCount = 0;
+        String content = "";
+        for (Activity activity : activities) {
+            ActivityBean activityBean = new ActivityBean();
+            activityBean.inject(activity);
+            //设置总flga数量
+            signs = signService.findByActivityId(activity.getId());
+            activityBean.setActivityFlagCount(signs.size());
+            if (signs.size()>0){
+                for (int i=0;i<signs.size();i++){
+                    flagCount += signs.get(i).getLikeCount();
+                    if (!StringUtils.isEmpty(signs.get(i).getContent())&&signs.get(i).getContent().length()>15){
+
+                        content += signs.get(i).getContent().substring(0,15)+"...;";
+                    }else {
+                        content += signs.get(i).getContent()+";";
+                    }
+                }
+            }
+            activityBean.setActivityDescribe(content);
+            //设置总点赞数量
+            activityBean.setActivityGreatCoun(flagCount);
+            activityBeans.add(activityBean);
+        }
+        beanPage.setRows(activityBeans);
+        return rtnParam(0, ImmutableMap.of("data",beanPage));
+    }
 }
