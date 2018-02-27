@@ -47,7 +47,7 @@ public class Activity implements Serializable{
     }
 
     @Basic
-    @Column(name = "creater_wx_id", nullable = true, length = 19)
+    @Column(name = "creater_wx_id", nullable = true, length = 32)
     public String getCreaterWxId() {
         return createrWxId;
     }

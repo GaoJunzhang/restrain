@@ -1,7 +1,7 @@
 package com.restrain.controller;
 
 import com.google.common.collect.ImmutableMap;
-import com.restrain.service.ActivityWxUsersService;
+import com.restrain.service.ActivityUsersService;
 import com.restrain.util.RedisUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class ActivityWxUsersController extends BaseController{
 
     @Autowired
-    private ActivityWxUsersService activityWxUsersService;
+    private ActivityUsersService activityUsersService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -29,7 +29,7 @@ public class ActivityWxUsersController extends BaseController{
         }
         String wxSessionStr = (String)wxSessionObj;
         String openid = wxSessionStr.split("#")[1];
-        activityWxUsersService.saveActivityWxusers(null,activityId,openid,(short)1);
+        activityUsersService.saveActivityWxusers(null,activityId,openid,(short)1);
         return rtnParam(0, ImmutableMap.of("flag",true,"msg","success"));
     }
 

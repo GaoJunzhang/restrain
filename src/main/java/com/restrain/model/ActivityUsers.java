@@ -3,9 +3,12 @@ package com.restrain.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * Created by user on 2018/2/27.
+ */
 @Entity
-@Table(name = "activity_wxUsers", schema = "restrain", catalog = "")
-public class ActivityWxUsers {
+@Table(name = "activity_users", schema = "restrain", catalog = "")
+public class ActivityUsers {
     private long id;
     private Long activityId;
     private String wxno;
@@ -13,7 +16,7 @@ public class ActivityWxUsers {
     private Short isLogin;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     public long getId() {
         return id;
     }
@@ -23,7 +26,7 @@ public class ActivityWxUsers {
     }
 
     @Basic
-    @Column(name = "activity_id", nullable = true)
+    @Column(name = "activity_id")
     public Long getActivityId() {
         return activityId;
     }
@@ -33,7 +36,7 @@ public class ActivityWxUsers {
     }
 
     @Basic
-    @Column(name = "wxno", nullable = true, length = 34)
+    @Column(name = "wxno")
     public String getWxno() {
         return wxno;
     }
@@ -43,7 +46,7 @@ public class ActivityWxUsers {
     }
 
     @Basic
-    @Column(name = "create_time", nullable = true)
+    @Column(name = "create_time")
     public Timestamp getCreateTime() {
         return createTime;
     }
@@ -53,7 +56,7 @@ public class ActivityWxUsers {
     }
 
     @Basic
-    @Column(name = "is_login", nullable = true)
+    @Column(name = "is_login")
     public Short getIsLogin() {
         return isLogin;
     }
@@ -67,7 +70,7 @@ public class ActivityWxUsers {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ActivityWxUsers that = (ActivityWxUsers) o;
+        ActivityUsers that = (ActivityUsers) o;
 
         if (id != that.id) return false;
         if (activityId != null ? !activityId.equals(that.activityId) : that.activityId != null) return false;

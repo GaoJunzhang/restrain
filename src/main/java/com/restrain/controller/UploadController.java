@@ -1,6 +1,5 @@
 package com.restrain.controller;
 
-import com.google.common.collect.ImmutableMap;
 import com.restrain.common.annotation.Api;
 import com.restrain.common.constant.ApiConstant;
 import com.restrain.util.RedisUtil;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 
 @RestController
@@ -30,12 +28,12 @@ public class UploadController extends BaseController{
 
 	@Autowired
 	private RedisUtil redisUtil;
-	
+
 	/**
 	 * 上传文件
 	 * @param file
 	 * @return
-	 */
+	 *//*
 	@Api(name = ApiConstant.UPLOAD_IMAGE)
 	@RequestMapping(value = "upload", method = RequestMethod.POST, produces = "application/json")
 	public Map<String,Object> upload(String sessionId,@RequestParam(required=true,value="file")MultipartFile file,String path){
@@ -58,6 +56,31 @@ public class UploadController extends BaseController{
 			e.printStackTrace();
 		}
 		return rtnParam(40011, null);
+	}*/
+	@Api(name = ApiConstant.UPLOAD_IMAGE)
+	@RequestMapping(value = "upload", method = RequestMethod.POST, produces = "application/json")
+	public String upload(String sessionId, @RequestParam(required=true,value="file")MultipartFile file, String path){
+		Object wxSessionObj = redisUtil.get(sessionId);
+		if(null == wxSessionObj){
+			return "errorCode:"+"40008";
+		}
+		if(null == file){
+			return "errorCode:"+"40010";
+		}
+		String random = RandomStringUtils.randomAlphabetic(16);
+		String fileName = file.getOriginalFilename();
+		String fileTyle=fileName.substring(fileName.lastIndexOf("."),fileName.length());
+		fileName = random+fileTyle;
+		try {
+			String uploadDirName = imgLocalPath.substring(imgLocalPath.lastIndexOf("/"), imgLocalPath.length());
+			FileCopyUtils.copy(file.getBytes(), new File(imgLocalPath + "/", fileName));
+			return imgHost + uploadDirName + "/" + fileName;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "errorCode:"+"40011";
+
 	}
 
 

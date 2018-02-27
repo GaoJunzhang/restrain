@@ -9,6 +9,7 @@ import com.restrain.service.SignService;
 import com.restrain.util.BeanPage;
 import com.restrain.util.RedisUtil;
 import com.restrain.util.StringTools;
+import com.restrain.util.VTools;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,9 @@ public class ActivityController extends BaseController{
     @PostMapping(path = "/saveActivity")
     @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
     public Map<String,Object> saveActivity(String sessionId,String name, String content, Short isTime, String startDate, String endDate, Short isSign, Short isLimit, String limits, String bgImg, String bgColor) {
+        if (VTools.StringIsNullOrSpace(sessionId)){
+            return rtnParam(40009,"sessionId为空");
+        }
         Object wxSessionObj = redisUtil.get(sessionId);
         if(null == wxSessionObj){
             return rtnParam(40008, null);
@@ -50,7 +54,7 @@ public class ActivityController extends BaseController{
         Activity activity = activityService.saveActivity(null, name, sessionKey, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, isLimit, limits, bgImg, bgColor);
 //        ActivityBean activityBean = new ActivityBean();
         if (activity != null) {
-            return rtnParam(0, null);
+            return rtnParam(0, "保存成功");
         }
         return null;
     }

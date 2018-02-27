@@ -1,27 +1,27 @@
 package com.restrain.service;
 
-import com.restrain.dao.ActivityWxUsersRespority;
-import com.restrain.model.ActivityWxUsers;
+import com.restrain.dao.ActivityUsersRespority;
+import com.restrain.model.ActivityUsers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 
 @Service
-public class ActivityWxUsersService {
+public class ActivityUsersService {
     @Autowired
-    private ActivityWxUsersRespority activityWxUsersRespority;
+    private ActivityUsersRespority activityUsersRespority;
 
-    public ActivityWxUsers saveActivityWxusers(Long id,Long activityId,String wxno,Short isLogin){
+    public ActivityUsers saveActivityWxusers(Long id, Long activityId, String wxno, Short isLogin){
 
-        ActivityWxUsers activityWxUsers = null;
+        ActivityUsers activityWxUsers = null;
         if (id == null){
-            activityWxUsers = new ActivityWxUsers();
+            activityWxUsers = new ActivityUsers();
             activityWxUsers.setCreateTime(new Timestamp(System.currentTimeMillis()));
         }
         activityWxUsers.setActivityId(activityId);
         activityWxUsers.setWxno(wxno);
         activityWxUsers.setIsLogin(isLogin);
-        return activityWxUsersRespority.save(activityWxUsers);
+        return activityUsersRespority.save(activityWxUsers);
     }
 }
