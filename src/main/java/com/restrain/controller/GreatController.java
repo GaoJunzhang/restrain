@@ -1,6 +1,8 @@
 package com.restrain.controller;
 
 import com.google.common.collect.ImmutableMap;
+import com.restrain.bean.SignBean;
+import com.restrain.bean.SignHeads;
 import com.restrain.model.Great;
 import com.restrain.model.WxUsers;
 import com.restrain.service.GreatService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,32 +45,7 @@ public class GreatController extends BaseController {
         }
         String wxSessionStr = (String) wxSessionObj;
         String wxno = wxSessionStr.split("#")[1];
-        List<Great> greatList = greatService.findBySignId(signId);
-        boolean flag = false;
-        String[] wxnos = null;
-        if (greatList.size() > 0) {
-            wxnos = new String[greatList.size()];
-            for (int i = 0; i < greatList.size(); i++){
-                if (wxno.equals(greatList.get(i).getWxNo())){
-                    flag = true;
-                }
-                wxnos[i] = greatList.get(i).getWxNo();
-            }
-        }
-        if (flag) {
-            List<WxUsers> wxUsers = wxUserService.wxUsersListByIdIn(wxnos);
-            String[] headImgs = new String[wxUsers.size()];
-            for (int j=0;j<wxUsers.size();j++){
-                if (StringUtils.isEmpty(wxUsers.get(j).getImg())){
-                    headImgs[j] = anonymousImg;
-                }else {
-                    headImgs[j] = wxUsers.get(j).getImg();
 
-                }
-            }
-            // greatService.deleteByWxNoAndActivityId(wxno,activityId);
-            return rtnParam(0, ImmutableMap.of("flag", 1, "msg", "用户已经点赞","headImgs",headImgs));
-        }
         greatService.updateSgin(signId);
         greatService.saveGreate(signId, wxno);
         return rtnParam(0, ImmutableMap.of("flag",2,"msg", "点赞成功"));
@@ -77,5 +55,37 @@ public class GreatController extends BaseController {
     @GetMapping(value = "getGreatCount")
     public int getGreatCount(@RequestParam(required = true, value = "signId") Long signId) {
         return greatService.countBySignId(signId);
+    }
+
+    @GetMapping("/signHeads")
+    public List<SignHeads> signHeads(Long signId){
+        List<Great> greatList = greatService.findBySignId(signId);
+//        boolean flag = false;
+        String[] wxnos = null;
+        if (greatList.size() > 0) {
+            wxnos = new String[greatList.size()];
+            for (int i = 0; i < greatList.size(); i++){
+//                if (wxno.equals(greatList.get(i).getWxNo())){
+//                    flag = true;
+//                }
+                wxnos[i] = greatList.get(i).getWxNo();
+            }
+        }
+//        if (flag) {
+        List<WxUsers> wxUsers = wxUserService.wxUsersListByIdIn(wxnos);
+        List<SignHeads> signHeads = new ArrayList<SignHeads>(wxUsers.size());
+        for (int j=0;j<wxUsers.size();j++){
+            SignHeads signHeads1 = new SignHeads();
+            signHeads1.setId((long)j);
+            if (StringUtils.isEmpty(wxUsers.get(j).getImg())){
+                signHeads1.setLog(anonymousImg);
+            }else {
+                signHeads1.setLog(wxUsers.get(j).getImg());
+            }
+            signHeads.add(signHeads1);
+        }
+            // greatService.deleteByWxNoAndActivityId(wxno,activityId);
+        return signHeads;
+//        }
     }
 }

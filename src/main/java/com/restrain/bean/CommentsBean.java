@@ -20,6 +20,7 @@ public class CommentsBean extends MainBean{
     private Long activityId;
     private String ownerUserName;
     private String targetUserName;
+    private String logo;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Timestamp getCreaterTime() {
