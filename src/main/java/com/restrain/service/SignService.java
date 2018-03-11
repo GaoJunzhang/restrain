@@ -57,6 +57,9 @@ public class SignService {
             sign = new Sign();
         }else {
             sign = signRepository.findOne(id);
+            if (sign == null){
+                sign = new Sign();
+            }
         }
         sign.setCreateTime(new Timestamp(System.currentTimeMillis()));
         sign.setWxno(wxno);

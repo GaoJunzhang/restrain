@@ -186,17 +186,14 @@ public class ActivityController extends BaseController{
     }*/
 
     @ApiOperation(value = "我的密圈",notes = "根据用户wxno,查询我所参与和发起的密圈活动")
-    @GetMapping("myActivitys")
-    public Map<String,Object> myActivitys(@RequestParam(name = "sessionId",required = true) String sessionId,@RequestParam(defaultValue = "0") int page,
+    @GetMapping("/myActivitys")
+    public BeanPage<ActivityBean> myActivitys(@RequestParam(name = "sessionId",required = true) String sessionId,@RequestParam(defaultValue = "1") int page,
                                           @RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "desc") String sortType,
                                           @RequestParam(defaultValue = "createTime") String sortValue){
         Object wxSessionObj = redisUtil.get(sessionId);
-        if(null == wxSessionObj){
-            return rtnParam(40008, null);
-        }
         String wxSessionStr = (String)wxSessionObj;
-        String sessionKey = wxSessionStr.split("#")[0];
-        Page<Activity> activities = activityService.activities(sessionKey,page,size,sortType,sortValue);
+        String sessionKey = wxSessionStr.split("#")[1];
+        Page<Activity> activities = activityService.activities(sessionKey,page-1,size,sortType,sortValue);
         BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
         beanPage.setTotal(activities.getTotalElements());
         beanPage.setTotalPage(activities.getTotalPages());
@@ -227,6 +224,6 @@ public class ActivityController extends BaseController{
             activityBeans.add(activityBean);
         }
         beanPage.setRows(activityBeans);
-        return rtnParam(0, ImmutableMap.of("data",beanPage));
+        return beanPage;
     }
 }

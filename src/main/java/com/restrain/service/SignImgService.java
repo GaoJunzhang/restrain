@@ -13,12 +13,7 @@ public class SignImgService {
     private SignImgRepository signImgRepository;
 
     public SignImg saveSignImg(Long id, Long signId, String url) {
-        SignImg signImg = null;
-        if (id == null) {
-            signImg = new SignImg();
-        }else {
-            signImg = signImgRepository.findOne(id);
-        }
+        SignImg signImg =  new SignImg();
         signImg.setId(id);
         signImg.setImgUrl(url);
         signImg.setSignId(signId);

@@ -108,11 +108,14 @@ public class SignController extends BaseController {
         Long signImgId = null;
         Long signMaxId = signService.maxId() + 1;
         Long maxid = signImgService.maxId();
+        if (maxid == null){
+            maxid = (long)1;
+        }
         if (img.length > 0) {
             SignImg signImg = new SignImg();
             for (int i = 0; i < img.length; i++) {
-                maxid++;
                 signImg = signImgService.saveSignImg(maxid, signMaxId, img[i]);
+                maxid++;
             }
             signImgId = signImg.getSignId();
         }
@@ -125,4 +128,6 @@ public class SignController extends BaseController {
         }
         return null;
     }
+    @GetMapping("/maxids")
+    public long maxId(){return signImgService.maxId();}
 }
