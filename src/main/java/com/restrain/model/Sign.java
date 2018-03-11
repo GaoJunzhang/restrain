@@ -10,7 +10,7 @@ public class Sign implements Serializable{
     private long id;
     private Long activityId;
     private Timestamp createTime;
-    private String img;
+    private Long img;
     private String video;
     private String music;
     private String content;
@@ -53,11 +53,11 @@ public class Sign implements Serializable{
 
     @Basic
     @Column(name = "img", nullable = true, length = 100)
-    public String getImg() {
+    public Long getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(Long img) {
         this.img = img;
     }
 

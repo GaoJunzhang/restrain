@@ -51,7 +51,7 @@ public class SignService {
         return signRepository.findAll(specification, pageable);
     }
 
-    public Sign saveSign(Long id,String wxno, Long activityId, String img, String video, String music, String content, String position, String isHide,String inviters) {
+    public Sign saveSign(Long id,String wxno, Long activityId, Long img, String video, String music, String content, String position, String isHide,String inviters) {
         Sign sign = null;
         if (id == null) {
             sign = new Sign();
@@ -68,6 +68,7 @@ public class SignService {
         sign.setPosition(position);
         sign.setIsHide(isHide);
         sign.setInviters(inviters);
+        sign.setLikeCount(0);
         return signRepository.save(sign);
     }
 
@@ -76,4 +77,6 @@ public class SignService {
     }
 
     public List<Sign> findByActivityId(Long activityId){return signRepository.findByActivityId(activityId);}
+
+    public long maxId(){return signRepository.maxId();}
 }

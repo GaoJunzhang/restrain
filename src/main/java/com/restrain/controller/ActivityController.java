@@ -71,9 +71,9 @@ public class ActivityController extends BaseController{
     }
 
     @GetMapping("/activitys")
-    public BeanPage<ActivityBean> activityBeanPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+    public BeanPage<ActivityBean> activityBeanPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
                                                    @RequestParam(defaultValue = "desc") String sortType, @RequestParam(defaultValue = "createTime") String sortValue){
-        Page<Activity> activities = activityService.activities(null,page,size,sortType,sortValue);
+        Page<Activity> activities = activityService.activities(null,page-1,size,sortType,sortValue);
         BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
         beanPage.setTotal(activities.getTotalElements());
         beanPage.setTotalPage(activities.getTotalPages());
