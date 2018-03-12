@@ -11,15 +11,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.RandomStringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Arrays;
@@ -39,6 +38,9 @@ public class WxAuthController extends BaseController{
 
 	@Autowired
 	private WxUserService wxUserService;
+
+	@Value("${redis.session.time}")
+	private long sessionIdTime;
 
 	/**
 	 * 根据客户端传过来的code从微信服务器获取appid和session_key，然后生成3rdkey返回给客户端，后续请求客户端传3rdkey来维护客户端登录态
@@ -63,7 +65,7 @@ public class WxAuthController extends BaseController{
 		String wxSessionKey = (String)wxSessionMap.get("session_key");
 		System.out.println(wxSessionKey);
 //		Long expires = Long.valueOf(String.valueOf(wxSessionMap.get("expires_in")));
-		String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, (long)7200);
+		String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, sessionIdTime);
 		return rtnParam(0, ImmutableMap.of("sessionId",thirdSession));
 	}
 

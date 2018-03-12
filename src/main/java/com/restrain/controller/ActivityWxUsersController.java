@@ -1,10 +1,13 @@
 package com.restrain.controller;
 
 import com.google.common.collect.ImmutableMap;
+import com.restrain.model.Activity;
+import com.restrain.service.ActivityService;
 import com.restrain.service.ActivityUsersService;
 import com.restrain.util.RedisUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,9 @@ public class ActivityWxUsersController extends BaseController{
 
     @Autowired
     private ActivityUsersService activityUsersService;
+
+    @Autowired
+    private ActivityService activityService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -33,4 +39,20 @@ public class ActivityWxUsersController extends BaseController{
         return rtnParam(0, ImmutableMap.of("flag",true,"msg","success"));
     }
 
+
+    @ApiOperation(value = "检查密圈权限",notes = "加锁密圈进入权限判断")
+    @GetMapping("/checkAuth")
+    public boolean checkAuth(String sessionId,Long activityId){
+        Object wxSessionObj = redisUtil.get(sessionId);
+        String wxSessionStr = (String)wxSessionObj;
+        String wxno = wxSessionStr.split("#")[1];
+        if (activityUsersService.findByActivityIdAndWxno(activityId,wxno).size()>0){
+            return true;
+        }
+        Activity activitie = activityService.activity(activityId);
+        if (wxno.equals(activitie.getCreaterWxId())){
+            return true;
+        }
+        return false;
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class ActivityUsersService {
@@ -23,5 +24,9 @@ public class ActivityUsersService {
         activityWxUsers.setWxno(wxno);
         activityWxUsers.setIsLogin(isLogin);
         return activityUsersRespority.save(activityWxUsers);
+    }
+
+    public List<ActivityUsers> findByActivityIdAndWxno(Long activityId,String wxno ){
+        return activityUsersRespority.findByActivityIdAndWxno(activityId,wxno);
     }
 }
