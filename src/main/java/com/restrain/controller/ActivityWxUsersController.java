@@ -42,17 +42,17 @@ public class ActivityWxUsersController extends BaseController{
 
     @ApiOperation(value = "检查密圈权限",notes = "加锁密圈进入权限判断")
     @GetMapping("/checkAuth")
-    public boolean checkAuth(String sessionId,Long activityId){
+    public Map<String,Object> checkAuth(String sessionId,Long activityId){
         Object wxSessionObj = redisUtil.get(sessionId);
         String wxSessionStr = (String)wxSessionObj;
         String wxno = wxSessionStr.split("#")[1];
         if (activityUsersService.findByActivityIdAndWxno(activityId,wxno).size()>0){
-            return true;
+            return rtnParam(0, ImmutableMap.of("flag",true));
         }
         Activity activitie = activityService.activity(activityId);
         if (wxno.equals(activitie.getCreaterWxId())){
-            return true;
+            return rtnParam(0, ImmutableMap.of("flag",true));
         }
-        return false;
+        return rtnParam(0, ImmutableMap.of("flag",false));
     }
 }
