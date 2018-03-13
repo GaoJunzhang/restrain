@@ -3,7 +3,6 @@ package com.restrain.controller;
 import com.restrain.common.annotation.Api;
 import com.restrain.common.constant.ApiConstant;
 import com.restrain.util.RedisUtil;
-import com.restrain.util.VTools;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 
@@ -64,13 +62,13 @@ public class UploadController extends BaseController{
 	public String upload(String sessionId,  @RequestParam(required=true,value="file")MultipartFile file, String path){
 
 		System.out.println(sessionId);
-		Object wxSessionObj = redisUtil.get(sessionId);
+		/*Object wxSessionObj = redisUtil.get(sessionId);
 		if(null == wxSessionObj){
 			return "errorCode:"+"40008";
 		}
 		if(null == file){
 			return "errorCode:"+"40010";
-		}
+		}*/
 		String random = RandomStringUtils.randomAlphabetic(16);
 		String fileName = file.getOriginalFilename();
 		String fileTyle=fileName.substring(fileName.lastIndexOf("."),fileName.length());

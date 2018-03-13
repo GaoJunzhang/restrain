@@ -45,6 +45,9 @@ public class SignController extends BaseController {
     @Autowired
     private WxUserService wxUserService;
 
+    @Autowired
+    private ActivityUsersService activityUsersService;
+
     @Value("${wx.anonymous.img}")
     private String headImg;
 
@@ -84,6 +87,10 @@ public class SignController extends BaseController {
                 signBean.setNickName("密某人");
                 signBean.setWxUrl(headImg);
             }
+            //是否接受邀请
+            if (activityUsersService.findByActivityIdAndWxno(activityId, wxno).size() > 0) {
+                signBean.setIsApply("1");
+            }
             signBean.setSignGreatSum(greatService.countBySignId(sign.getId()) + "");
             signBean.setSignCommentSum(commentService.sumComment(sign.getId()) + "");
             if (greatService.countBySignIdAndWxNo(sign.getId(), wxno) > 0) {
@@ -106,11 +113,14 @@ public class SignController extends BaseController {
             return rtnParam(40008, null);
         }
         Long signImgId = null;
-        Long signMaxId = signService.maxId() + 1;
-        Long maxid = signImgService.maxId();
-        if (maxid == null){
-            maxid = (long)1;
-        }
+        Long signMaxId = signService.maxId()+1;
+//        if (signMaxId == null){
+//            signMaxId = (long) 1;
+//        }
+        Long maxid = signImgService.maxId()+1;
+//        if (maxid == null) {
+//            maxid = (long) 1;
+//        }
         if (img.length > 0) {
             SignImg signImg = new SignImg();
             for (int i = 0; i < img.length; i++) {
@@ -128,6 +138,9 @@ public class SignController extends BaseController {
         }
         return null;
     }
+
     @GetMapping("/maxids")
-    public long maxId(){return signImgService.maxId();}
+    public long maxId() {
+        return signImgService.maxId();
+    }
 }

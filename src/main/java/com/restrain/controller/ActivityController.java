@@ -1,6 +1,5 @@
 package com.restrain.controller;
 
-import com.google.common.collect.ImmutableMap;
 import com.restrain.bean.ActivityBean;
 import com.restrain.model.Activity;
 import com.restrain.model.Sign;
@@ -71,10 +70,18 @@ public class ActivityController extends BaseController{
     }
 
     @GetMapping("/activitys")
-    public BeanPage<ActivityBean> activityBeanPage(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+    public BeanPage<ActivityBean> activityBeanPage(String sessionId,@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
                                                    @RequestParam(defaultValue = "desc") String sortType, @RequestParam(defaultValue = "createTime") String sortValue){
+
         Page<Activity> activities = activityService.activities(null,page-1,size,sortType,sortValue);
         BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
+        if (VTools.StringIsNullOrSpace(sessionId)){
+            return beanPage;
+        }
+        Object wxSessionObj = redisUtil.get(sessionId);
+        if(null == wxSessionObj){
+            return beanPage;
+        }
         beanPage.setTotal(activities.getTotalElements());
         beanPage.setTotalPage(activities.getTotalPages());
         List<ActivityBean> activityBeans = new ArrayList<ActivityBean>();

@@ -32,6 +32,7 @@ public class SignBean extends MainBean{
     private List<SignImg> imgUrls;
     private String nickName;
     private String wxUrl;
+    private String isApply;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Timestamp getCreateTime() {

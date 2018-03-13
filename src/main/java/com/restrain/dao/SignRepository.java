@@ -21,6 +21,6 @@ public interface SignRepository extends JpaRepository<Sign,Long> {
 
     public List<Sign> findByActivityId(@Param("activityId") Long activityId);
 
-    @Query(value = "select max(id) from sign",nativeQuery = true)
+    @Query(value = "select IFNULL(MAX(id),0) from sign",nativeQuery = true)
     long maxId();
 }
