@@ -279,6 +279,20 @@ public class ActivityController extends BaseController{
             activityBean.setActivityDescribe(content);
             //设置总点赞数量
             activityBean.setActivityGreatCoun(flagCount);
+            //设置头像
+            List<SignHeads> signHeads = new ArrayList<SignHeads>(1);
+            List<WxUsers> wxUsers = wxUserService.findByOpenid(activity.getCreaterWxId());
+            SignHeads signHeads1 = new SignHeads();
+            if (wxUsers.size()>0){
+
+                signHeads1.setId((long)1);
+                signHeads1.setLog(wxUsers.get(0).getImg());
+            }else {
+                signHeads1.setId((long)1);
+                signHeads1.setLog(anonymousImg);
+            }
+            signHeads.add(signHeads1);
+            activityBean.setSignHeads(signHeads);
             activityBeans.add(activityBean);
         }
         beanPage.setRows(activityBeans);
