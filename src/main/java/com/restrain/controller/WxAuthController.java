@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.restrain.common.aes.AES;
 import com.restrain.common.annotation.Api;
 import com.restrain.common.constant.ApiConstant;
+import com.restrain.model.WxUsers;
 import com.restrain.service.WxService;
 import com.restrain.service.WxUserService;
 import com.restrain.util.RedisUtil;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -126,8 +128,11 @@ public class WxAuthController extends BaseController{
 				String userInfo = new String(resultByte, "UTF-8");
 				JSONObject jsonObject = new JSONObject(new String(resultByte, "UTF-8"));
 				short sex = (short) jsonObject.getInt("gender");
-				if (wxUserService.findByOpenid(sessionKey[1]).size()<=0){
+				List<WxUsers> wxUsers = wxUserService.findByOpenid(sessionKey[1]);
+				if (wxUsers.size()<=0){
 					wxUserService.saveWxusers(null,jsonObject.getString("nickName"),jsonObject.getString("nickName"),sex,jsonObject.getString("avatarUrl"),null,(short)1,jsonObject.getString("openId"));
+				}else {
+					wxUserService.saveWxusers(wxUsers.get(0).getId(),jsonObject.getString("nickName"),jsonObject.getString("nickName"),sex,jsonObject.getString("avatarUrl"),null,(short)1,jsonObject.getString("openId"));
 				}
 				return rtnParam(0, jsonObject.toString());
 			}
