@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by user on 2018/1/23.
@@ -35,4 +36,5 @@ public class ActivityBean extends MainBean {
     private Integer activityGreatCoun;
 
     private String activityDescribe;
+    private List<SignHeads> signHeads;
 }

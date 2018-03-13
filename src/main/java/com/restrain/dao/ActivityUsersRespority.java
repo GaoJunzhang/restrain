@@ -9,4 +9,6 @@ import java.util.List;
 public interface ActivityUsersRespority extends JpaRepository<ActivityUsers, Long> {
 
     public List<ActivityUsers> findByActivityIdAndWxno(@Param("activityId") Long activityId, @Param("wxno") String wxno);
+
+    public List<ActivityUsers> findByActivityId(@Param("activityId") Long activityId);
 }

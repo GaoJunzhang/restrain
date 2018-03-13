@@ -1,10 +1,14 @@
 package com.restrain.controller;
 
 import com.restrain.bean.ActivityBean;
+import com.restrain.bean.SignHeads;
 import com.restrain.model.Activity;
 import com.restrain.model.Sign;
+import com.restrain.model.WxUsers;
 import com.restrain.service.ActivityService;
+import com.restrain.service.ActivityUsersService;
 import com.restrain.service.SignService;
+import com.restrain.service.WxUserService;
 import com.restrain.util.BeanPage;
 import com.restrain.util.RedisUtil;
 import com.restrain.util.StringTools;
@@ -13,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +42,15 @@ public class ActivityController extends BaseController{
 
     @Autowired
     private SignService signService;
+
+    @Autowired
+    private WxUserService wxUserService;
+
+    @Autowired
+    private ActivityUsersService activityUsersService;
+
+    @Value("${wx.anonymous.img}")
+    private String anonymousImg;
 
     @PostMapping(path = "/saveActivity")
     @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
@@ -108,6 +122,43 @@ public class ActivityController extends BaseController{
             activityBean.setActivityDescribe(content);
             //设置总点赞数量
             activityBean.setActivityGreatCoun(flagCount);
+            //设置参与者的头像
+            List<SignHeads> signHeads = new ArrayList<SignHeads>(1);
+            List<WxUsers> wxUsers = wxUserService.findByOpenid(activity.getCreaterWxId());
+            SignHeads signHeads1 = new SignHeads();
+            if (wxUsers.size()>0){
+
+                signHeads1.setId((long)1);
+                signHeads1.setLog(wxUsers.get(0).getImg());
+            }else {
+                signHeads1.setId((long)1);
+                signHeads1.setLog(anonymousImg);
+            }
+            signHeads.add(signHeads1);
+            activityBean.setSignHeads(signHeads);
+            /*List<ActivityUsers> activityUsers = activityUsersService.findByActivityId(activity.getId());//查询参与者信息
+            String[] wxnos = null;
+            if (activityUsers.size() > 0) {
+                wxnos = new String[activityUsers.size()];
+                for (int i = 0; i < activityUsers.size(); i++){
+//                if (wxno.equals(greatList.get(i).getWxNo())){
+//                    flag = true;
+//                }
+                    wxnos[i] = activityUsers.get(i).getWxno();
+                }
+            }
+            List<WxUsers> wxUsers = wxUserService.wxUsersListByIdIn(wxnos);
+            List<SignHeads> signHeads = new ArrayList<SignHeads>(wxUsers.size());
+            for (int j=0;j<wxUsers.size();j++){
+                SignHeads signHeads1 = new SignHeads();
+                signHeads1.setId((long)j);
+                if (StringUtils.isEmpty(wxUsers.get(j).getImg())){
+                    signHeads1.setLog(anonymousImg);
+                }else {
+                    signHeads1.setLog(wxUsers.get(j).getImg());
+                }
+                signHeads.add(signHeads1);
+            }*/
             activityBeans.add(activityBean);
         }
         beanPage.setRows(activityBeans);

@@ -29,4 +29,8 @@ public class ActivityUsersService {
     public List<ActivityUsers> findByActivityIdAndWxno(Long activityId,String wxno ){
         return activityUsersRespority.findByActivityIdAndWxno(activityId,wxno);
     }
+
+    public List<ActivityUsers> findByActivityId (Long activityId){
+        return activityUsersRespority.findByActivityId(activityId);
+    }
 }
