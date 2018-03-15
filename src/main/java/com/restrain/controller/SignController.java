@@ -78,7 +78,12 @@ public class SignController extends BaseController {
                 List<WxUsers> wxUsers = wxUserService.findByOpenid(sign.getWxno());
                 if (wxUsers.size() > 0) {
                     signBean.setNickName(wxUsers.get(0).getNickName());
-                    signBean.setWxUrl(wxUsers.get(0).getImg());
+                    if ("1".equals(sign.getIsHide())){
+                        signBean.setWxUrl(headImg);
+                    }else {
+
+                        signBean.setWxUrl(wxUsers.get(0).getImg());
+                    }
                 } else {
                     signBean.setNickName("密某人");
                     signBean.setWxUrl(headImg);
