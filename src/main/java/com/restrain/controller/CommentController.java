@@ -80,8 +80,8 @@ public class CommentController extends BaseController {
                 }
                 if (!StringUtils.isEmpty(comment.getOwnerUserId())&&comment.getOwnerUserId().equals(wxUsers.get(n).getWxno())){
                     commentsBean.setOwnerUserName(wxUsers.get(n).getWxName());
+                    commentsBean.setLogo(wxUsers.get(n).getImg());
                 }
-                commentsBean.setLogo(wxUsers.get(n).getImg());
             }
             commentsBeans.add(commentsBean);
         }

@@ -51,6 +51,9 @@ public class SignController extends BaseController {
     @Value("${wx.anonymous.img}")
     private String headImg;
 
+    @Value("${wx.anonymous.name}")
+    private String noName;
+
 
     @ApiOperation(value = "密一下列表", notes = "根据activityId获取主题下所有用户密一下数据")
     @GetMapping("/signs")
@@ -80,16 +83,17 @@ public class SignController extends BaseController {
                     signBean.setNickName(wxUsers.get(0).getNickName());
                     if ("1".equals(sign.getIsHide())){
                         signBean.setWxUrl(headImg);
+                        signBean.setNickName(noName);
                     }else {
 
                         signBean.setWxUrl(wxUsers.get(0).getImg());
                     }
                 } else {
-                    signBean.setNickName("密某人");
+                    signBean.setNickName(noName);
                     signBean.setWxUrl(headImg);
                 }
             } else {
-                signBean.setNickName("密某人");
+                signBean.setNickName(noName);
                 signBean.setWxUrl(headImg);
             }
             //是否接受邀请
