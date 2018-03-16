@@ -52,8 +52,10 @@ public class ActivityController extends BaseController{
     @Value("${wx.anonymous.img}")
     private String anonymousImg;
 
-    @PostMapping(path = "/saveActivity")
+//    @PostMapping(path = "/saveActivity")
+    @RequestMapping(value = "/saveActivity", method = RequestMethod.POST, produces = "application/json")
     @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
+    @ResponseBody
     public Map<String,Object> saveActivity(String sessionId,String name, String content, Short isTime, String startDate, String endDate, Short isSign, Short isLimit, String limits, String bgImg, String bgColor) {
         if (VTools.StringIsNullOrSpace(sessionId)){
             return rtnParam(40009,"sessionId为空");
@@ -71,7 +73,7 @@ public class ActivityController extends BaseController{
         }
         return null;
     }
-    @RequestMapping("/activity")
+    @RequestMapping(value = "/activity",method = RequestMethod.GET)
     public ActivityBean activity(Long id){
         Activity activity = activityService.activity(id);
         ActivityBean activityBean = new ActivityBean();
@@ -83,7 +85,8 @@ public class ActivityController extends BaseController{
         return null;
     }
 
-    @GetMapping("/activitys")
+//    @GetMapping("/activitys")
+    @RequestMapping(value = "/activitys",method = RequestMethod.GET,produces = "application/json")
     public BeanPage<ActivityBean> activityBeanPage(String sessionId,@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
                                                    @RequestParam(defaultValue = "desc") String sortType, @RequestParam(defaultValue = "createTime") String sortValue){
 
@@ -145,7 +148,8 @@ public class ActivityController extends BaseController{
 
 
     @ApiOperation(value = "我的密圈",notes = "根据用户wxno,查询我所参与和发起的密圈活动")
-    @GetMapping("/myActivitys")
+//    @GetMapping("/myActivitys")
+    @RequestMapping(value = "/myActivitys",method = RequestMethod.GET,produces = "application/json")
     public BeanPage<ActivityBean> myActivitys(@RequestParam(name = "sessionId",required = true) String sessionId,@RequestParam(defaultValue = "1") int page,
                                           @RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "desc") String sortType,
                                           @RequestParam(defaultValue = "createTime") String sortValue){
