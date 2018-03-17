@@ -55,9 +55,7 @@ public class ActivityController extends BaseController{
     @PostMapping(path = "/saveActivity")
     @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
     public Map<String,Object> saveActivity(String sessionId,String name, String content, Short isTime, String startDate, String endDate, Short isSign, Short isLimit, String limits, String bgImg, String bgColor) {
-        if (VTools.StringIsNullOrSpace(sessionId)){
-            return rtnParam(40009,"sessionId为空");
-        }
+
         Object wxSessionObj = redisUtil.get(sessionId);
         if(null == wxSessionObj){
             return rtnParam(40008, null);
@@ -89,11 +87,9 @@ public class ActivityController extends BaseController{
 
         Page<Activity> activities = activityService.activities(null,page-1,size,sortType,sortValue);
         BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
-        if (VTools.StringIsNullOrSpace(sessionId)){
-            return beanPage;
-        }
         Object wxSessionObj = redisUtil.get(sessionId);
         if(null == wxSessionObj){
+            beanPage.setErrorCode("40008");
             return beanPage;
         }
         beanPage.setTotal(activities.getTotalElements());
@@ -151,9 +147,13 @@ public class ActivityController extends BaseController{
                                           @RequestParam(defaultValue = "createTime") String sortValue){
         Object wxSessionObj = redisUtil.get(sessionId);
         String wxSessionStr = (String)wxSessionObj;
+        BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
+        if(null == wxSessionObj){
+            beanPage.setErrorCode("40008");
+            return beanPage;
+        }
         String sessionKey = wxSessionStr.split("#")[1];
         Page<Activity> activities = activityService.activities(sessionKey,page-1,size,sortType,sortValue);
-        BeanPage<ActivityBean> beanPage = new BeanPage<ActivityBean>();
         beanPage.setTotal(activities.getTotalElements());
         beanPage.setTotalPage(activities.getTotalPages());
         List<ActivityBean> activityBeans = new ArrayList<ActivityBean>();

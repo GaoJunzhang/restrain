@@ -1,13 +1,19 @@
 package com.restrain.util;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
 public class BeanPage<T> {
 
 	long total;
 	int totalPage;
 	List<T> rows;
-
+	String errorCode;
+/*
 	public long getTotal() {
 		return total;
 	}
@@ -30,6 +36,6 @@ public class BeanPage<T> {
 
 	public void setRows(List<T> rows) {
 		this.rows = rows;
-	}
+	}*/
 
 }

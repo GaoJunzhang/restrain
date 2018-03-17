@@ -8,6 +8,7 @@ import com.restrain.model.WxUsers;
 import com.restrain.service.*;
 import com.restrain.util.BeanPage;
 import com.restrain.util.RedisUtil;
+import com.restrain.util.VTools;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,10 @@ public class SignController extends BaseController {
         Object wxSessionObj = redisUtil.get(sessionId);
         BeanPage<SignBean> beanPage = new BeanPage<SignBean>();
         String wxSessionStr = (String) wxSessionObj;
+        if(null == wxSessionObj){
+            beanPage.setErrorCode("40008");
+            return beanPage;
+        }
         String wxno = wxSessionStr.split("#")[1];
         Page<Sign> signs = signService.Signs(activityId, page, size, sortType, sortValue);
         beanPage.setTotal(signs.getTotalElements());
