@@ -42,4 +42,8 @@ public class WxUserService {
     public List<WxUsers> findByOpenid(String openId) {
         return wxUserRepository.findByWxno(openId);
     }
+
+    public List<WxUsers> findByActivityId(Long activityId) {
+        return wxUserRepository.findByActivityId(activityId);
+    }
 }

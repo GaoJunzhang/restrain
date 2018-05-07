@@ -2,6 +2,7 @@ package com.restrain.dao;
 
 import com.restrain.model.WxUsers;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -16,5 +17,8 @@ public interface WxUserRepository extends JpaRepository<WxUsers,Long> {
     public List<WxUsers> findByWxno(@Param("wxno") String wxno);
 
     public List<WxUsers> findByWxnoIn(@Param("wxnos") String[] wxnos);
+
+    @Query(value = "SELECT * from wx_users t where t.wxno in (SELECT wxno from activity_users t1 where t1.activity_id=:activityId)",nativeQuery = true)
+    public List<WxUsers> findByActivityId(@Param("activityId") Long activityId);
 
 }

@@ -203,4 +203,18 @@ public class ActivityController extends BaseController{
         beanPage.setRows(activityBeans);
         return beanPage;
     }
+
+    @GetMapping("/loadUserByActivitys")
+    public Map<String,Object> loadUserByActivitys(String sessionId,Long activityId){
+        if (VTools.StringIsNullOrSpace(sessionId)){
+            return rtnParam(40009,"sessionId为空");
+        }
+        Object wxSessionObj = redisUtil.get(sessionId);
+        if(null == wxSessionObj){
+            return rtnParam(40008, null);
+        }
+        List<WxUsers> wxUsers = wxUserService.findByActivityId(activityId);
+        return rtnParam(0,wxUsers);
+
+    }
 }
