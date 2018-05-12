@@ -5,7 +5,6 @@ import com.restrain.model.Activity;
 import com.restrain.service.ActivityService;
 import com.restrain.service.ActivityUsersService;
 import com.restrain.util.RedisUtil;
-import com.restrain.util.VTools;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +35,7 @@ public class ActivityWxUsersController extends BaseController{
         }
         String wxSessionStr = (String)wxSessionObj;
         String openid = wxSessionStr.split("#")[1];
-        activityUsersService.saveActivityWxusers(null,activityId,openid,(short)1);
+        activityUsersService.saveActivityWxusers(null,activityId,openid,(short)0);
         return rtnParam(0, ImmutableMap.of("flag",true,"msg","success"));
     }
 

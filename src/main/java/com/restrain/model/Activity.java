@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Table(name = "activity")
 public class Activity implements Serializable{
@@ -28,6 +30,7 @@ public class Activity implements Serializable{
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = IDENTITY)
     public long getId() {
         return id;
     }

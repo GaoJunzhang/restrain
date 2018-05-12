@@ -56,7 +56,8 @@ public class ActivityController extends BaseController{
     @RequestMapping(value = "/saveActivity", method = RequestMethod.POST, produces = "application/json")
     @ApiOperation(value = "保存密圈",notes = "发布密圈活动")
     @ResponseBody
-    public Map<String,Object> saveActivity(String sessionId,String name, String content, Short isTime, String startDate, String endDate, Short isSign, Short isLimit, String limits, String bgImg, String bgColor) {
+    public Map<String,Object> saveActivity(String sessionId,String name, String content, Short isTime, @RequestParam(name = "startDate", defaultValue = "1970-01-01") String startDate,
+                                           @RequestParam(name = "endDate", defaultValue = "2037-01-01") String endDate, Short isSign, Short isLimit, String limits, String bgImg, String bgColor) {
 
         Object wxSessionObj = redisUtil.get(sessionId);
         if(null == wxSessionObj){
@@ -65,6 +66,7 @@ public class ActivityController extends BaseController{
         String wxSessionStr = (String)wxSessionObj;
         String sessionKey = wxSessionStr.split("#")[1];
         Activity activity = activityService.saveActivity(null, name, sessionKey, content, isTime, StringTools.strToDate("",startDate), StringTools.strToDate("",endDate), isSign, isLimit, limits, bgImg, bgColor);
+        activityUsersService.saveActivityWxusers(null,activity.getId(),activity.getCreaterWxId(),(short)0);
 //        ActivityBean activityBean = new ActivityBean();
         if (activity != null) {
             return rtnParam(0, "保存成功");
