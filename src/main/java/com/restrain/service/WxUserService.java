@@ -46,4 +46,7 @@ public class WxUserService {
     public List<WxUsers> findByActivityId(Long activityId) {
         return wxUserRepository.findByActivityId(activityId);
     }
+    public List<WxUsers> findByIdIn(Long[] ids){
+        return wxUserRepository.findByIdIn(ids);
+    }
 }

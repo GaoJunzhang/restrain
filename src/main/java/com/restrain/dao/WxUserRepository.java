@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface WxUserRepository extends JpaRepository<WxUsers,Long> {
 
-//    public List<WxUsers> findByIdIn(@Param("ids") Long[] ids);
+    public List<WxUsers> findByIdIn(@Param("ids") Long[] ids);
 
     public List<WxUsers> findByWxno(@Param("wxno") String wxno);
 
