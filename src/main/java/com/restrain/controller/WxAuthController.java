@@ -52,7 +52,7 @@ public class WxAuthController extends BaseController{
 	@ApiOperation(value = "获取sessionId", notes = "根据客户端传过来的code从微信服务器获取appid和session_key，然后生成3rdkey返回给客户端")
 	@ApiImplicitParam(name = "code", value = "用户登录回调内容会带上 ", required = true, dataType = "String")
 	@Api(name = ApiConstant.WX_CODE)
-	@RequestMapping(value = "getSession", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "getSession", method = RequestMethod.POST, produces = "application/json")
 	public Map<String,Object> createSssion(@RequestParam(required = true,value = "code")String wxCode){
 		Map<String,Object> wxSessionMap = wxService.getWxSession(wxCode);
 
@@ -79,7 +79,7 @@ public class WxAuthController extends BaseController{
 	 * @return
 	 */
 	@Api(name = ApiConstant.WX_CHECK_USER)
-	@RequestMapping(value = "checkUserInfo", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "checkUserInfo", method = RequestMethod.POST, produces = "application/json")
 	public Map<String,Object> checkUserInfo(@RequestParam(required = true,value = "rawData")String rawData,
 			@RequestParam(required = true,value = "signature")String signature,
 			@RequestParam(required = true,defaultValue = "sessionId")String sessionId){
@@ -107,7 +107,7 @@ public class WxAuthController extends BaseController{
 	 */
 	@ApiOperation(value = "解密encryptedData",notes = "保存用户数据")
 	@Api(name = ApiConstant.WX_DECODE_USERINFO)
-	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "decodeUserInfo", method = RequestMethod.POST, produces = "application/json")
 	public Map<String,Object> decodeUserInfo(@RequestParam(required = true,value = "encryptedData")String encryptedData,
 			@RequestParam(required = true,defaultValue = "iv")String iv,
 			@RequestParam(required = true,defaultValue = "sessionId")String sessionId){

@@ -3,6 +3,7 @@ package com.restrain.bean;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.restrain.annotation.RelevanceClass;
 import com.restrain.model.SignImg;
+import com.restrain.model.WxUsers;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -33,6 +34,7 @@ public class SignBean extends MainBean{
     private String nickName;
     private String wxUrl;
     private String isApply;
+    private List<WxUsers> atUserList;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Timestamp getCreateTime() {

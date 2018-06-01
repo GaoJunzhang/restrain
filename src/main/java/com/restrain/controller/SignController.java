@@ -8,8 +8,8 @@ import com.restrain.model.WxUsers;
 import com.restrain.service.*;
 import com.restrain.util.BeanPage;
 import com.restrain.util.RedisUtil;
-import com.restrain.util.VTools;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +80,13 @@ public class SignController extends BaseController {
                 List<SignImg> signImg = signImgService.signImgsBySignId(sign.getId());
 
                 signBean.setImgUrls(signImgService.signImgsBySignId(sign.getId()));
+            }
+            if (!StringUtils.isEmpty(sign.getInviters())){
+                String[] inviters = sign.getInviters().split(",");
+                Long[] uids = (Long[]) ConvertUtils.convert(inviters,Long.class);
+                List<WxUsers> wxUsersList = wxUserService.findByIdIn(uids);
+                signBean.setAtUserList(wxUsersList);
+                System.out.println("===============");
             }
             //昵称
             if (!StringUtils.isEmpty(sign.getWxno())) {
